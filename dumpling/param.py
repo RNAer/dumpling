@@ -1,5 +1,6 @@
 from keyword import iskeyword
 from collections import OrderedDict
+from collections.abc import Mapping
 
 
 def check_choice(it):
@@ -76,11 +77,13 @@ class OptionParam:
 
     def __repr__(self):
         # if isinstance(self.value, bool):
-        s = '<{}{}{}   "{}">'
-        return s.format(self.name, self.delimiter, self.value, self.help)
+        s = '{}(name="{}", alias="{}", value={}, formatter={}, help="{}", delimiter="{}")'
+        return s.format(self.__class__.__name__,
+                        self.name, self.alias, self.value, self.formatter.__name__,
+                        self.help, self.delimiter)
 
     def __str__(self):
-        if self.value is False or self.value is None:
+        if self.is_off():
             return ''
         elif self.value is True:
             return self.name
@@ -92,30 +95,59 @@ class OptionParam:
         return other.name == self.name and other.value == self.value
 
     def is_on(self):
-        return self.value is not None
+        return not self.is_off()
+
+    def is_off(self):
+        return self.value is False or self.value is None
 
     def on(self, value):
         self.value = value
+        return self
+
+    def off(self):
+        self.value = None
+        return self
 
 
-class Parameters(OrderedDict):
+class Parameters(Mapping):
+    def __init__(self, *args, **kwargs):
+        self._data = OrderedDict(*args, **kwargs)
+        self._alias_map = {}
+        for k in self._data:
+            p = self._data[k]
+            self._alias_map[p.alias] = p.name
+
     @classmethod
     def from_params(cls, params):
-        return cls(yield from [(param.name, param), (param.alias, param)]
-                   for param in params)
+        k_v_it = ((param.name, param) for param in params)
+        return cls(k_v_it)
 
-    def __setitem__(self, name, value):
-        self[name].on(value)
-        self[self.alias_map[name]].on(value)
+    def __iter__(self):
+        return iter(self._data)
 
-    def __getitem__(self, name):
-        if name in self:
-            return self[name]
-        elif self[self.alias_map[name]] in self:
-            return self[self.alias_map[name]]
+    def __len__(self):
+        return len(self._data)
 
-    def __repr__(self):
-        ''''''
+    def __contains__(self, key):
+        return key in self._data or key in self._alias_map
+
+    def __getitem__(self, key):
+        if key in self._data:
+            return self._data[key]
+        elif key in self._alias_map:
+            return self._data[self._alias_map[key]]
+        else:
+            raise KeyError(key)
+
+    def __setitem__(self, k, v):
+        if k in self:
+            self[k].on(v)
+        elif isinstance(v, OptionParam):
+            self._data[v.name] = v
+            self._alias_map[v.alias] = v.name
+        else:
+            msg = 'You cannot set value {} on key {}'
+            raise ValueError(msg.format(v, k))
 
 
 class Dumpling:
