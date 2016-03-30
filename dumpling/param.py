@@ -1,6 +1,8 @@
 from keyword import iskeyword
+from tempfile import mkdtemp
 from collections import OrderedDict
 from collections.abc import Mapping
+from subprocess import Popen, DEVNULL
 
 
 def check_choice(it):
@@ -21,12 +23,57 @@ def check_range(minimum, maximum):
     return func
 
 
-class ArgmntParam:
-    '''Class of arguement parameter.
+class Param:
+    def __init__(self, name, value=None, formatter=lambda i: i, help=''):
+        self.name = name
+        self.formatter = formatter
+        self.value = value
+        self.help = help
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, v):
+        if v is not None:
+            v = self.formatter(v)
+        self.__value = v
+
+    def on(self, value):
+        self.value = value
+        return self
+
+    def off(self):
+        self.value = None
+        return self
+
+    def is_on(self):
+        return not self.is_off()
+
+    def is_off(self):
+        return self.value is False or self.value is None
+
+    def __str__(self):
+        if self.is_off():
+            return ''
+        else:
+            return self.value
+
+
+class ArgmntParam(Param):
+    '''Class of argument parameter.
     '''
 
+    def __repr__(self):
+        # if isinstance(self.value, bool):
+        s = '{}(name="{}", value={}, formatter={}, help="{}")'
+        return s.format(self.__class__.__name__,
+                        self.name, self.value, self.formatter.__name__,
+                        self.help)
 
-class OptionParam:
+
+class OptionParam(Param):
     '''Class of option parameter.
 
     Parameters
@@ -37,11 +84,8 @@ class OptionParam:
     '''
     def __init__(self, name, alias=None, value=None, formatter=lambda i: i,
                  help='', delimiter=' '):
-        self.name = name
+        super().__init__(name, value, formatter, help)
         self.alias = alias
-        self.formatter = formatter
-        self.value = value
-        self.help = help
         self.delimiter = delimiter
 
     @property
@@ -64,16 +108,6 @@ class OptionParam:
         if s[0].isdigit():
             s = '_' + s
         return s
-
-    @property
-    def value(self):
-        return self.__value
-
-    @value.setter
-    def value(self, v):
-        if v is not None:
-            v = self.formatter(v)
-        self.__value = v
 
     def __repr__(self):
         # if isinstance(self.value, bool):
@@ -100,14 +134,6 @@ class OptionParam:
     def is_off(self):
         return self.value is False or self.value is None
 
-    def on(self, value):
-        self.value = value
-        return self
-
-    def off(self):
-        self.value = None
-        return self
-
 
 class Parameters(Mapping):
     def __init__(self, *args, **kwargs):
@@ -115,7 +141,8 @@ class Parameters(Mapping):
         self._alias_map = {}
         for k in self._data:
             p = self._data[k]
-            self._alias_map[p.alias] = p.name
+            if isinstance(p, OptionParam):
+                self._alias_map[p.alias] = p.name
 
     @classmethod
     def from_params(cls, params):
@@ -142,35 +169,60 @@ class Parameters(Mapping):
     def __setitem__(self, k, v):
         if k in self:
             self[k].on(v)
-        elif isinstance(v, OptionParam):
-            self._data[v.name] = v
-            self._alias_map[v.alias] = v.name
         else:
             msg = 'You cannot set value {} on key {}'
             raise ValueError(msg.format(v, k))
 
+    def update(self, **kwargs):
+        for k in kwargs:
+            self[k].on(kwargs[k])
+
+    def off(self):
+        for k in self._data:
+            self[k].off()
+
+    def __repr__(self):
+        items = []
+        for k in self._data:
+            items.append(repr(self._data[k]))
+        return '\n'.join(items)
+
 
 class Dumpling:
     def __init__(self, cmd, params,
-                 cwd, tmp_dir,
-                 stdin, stdout, stderr,
-                 cmd_delimiter=' ',
+                 stdin=None, stdout=None, stderr=None,
+                 cwd=None, tmp_dir=None,
                  version='', url=''):
+        if isinstance(cmd, str):
+            cmd = [cmd]
+        self.cmd = cmd
+        self.stdout = stdout
+        self.stderr = stderr
+        self.stdin = stdin
+        if tmp_dir is None:
+            tmp_dir = mkdtemp()
+        self.tmp_dir = tmp_dir
+        self.cwd = cwd
+        self.params = params
         self.version = version
+        self.url = url
 
     @property
     def command(self):
-        return
-
-    def __call__(**kwargs):
-        ''''''
-
-    def __str__(self):
-        ''''''
-        items = []
+        command = []
+        command.extend(self.cmd)
         for k in self.params:
             p = self.params[k]
-            s = str(s)
-            if s:
-                items.append(s)
-        return self.delimiter.join(items)
+            arg = str(p)
+            if arg:
+                command.append(arg)
+        return ' '.join(command)
+
+    def __call__(self, **kwargs):
+        ''''''
+        self.params.update(**kwargs)
+        print(self.command)
+        p = Popen(self.command, cwd=self.cwd, shell=True,
+                  stdin=self.stdin, stdout=self.stdout, stderr=self.stderr)
+        p.wait()
+        return p
