@@ -1,8 +1,10 @@
 from keyword import iskeyword
-from tempfile import mkdtemp
+from tempfile import mkdtemp, NamedTemporaryFile
 from collections import OrderedDict
 from collections.abc import Mapping
-from subprocess import Popen, DEVNULL
+from subprocess import Popen
+from copy import copy
+from shutil import rmtree
 
 
 def check_choice(it):
@@ -146,7 +148,8 @@ class Parameters(Mapping):
 
     @classmethod
     def from_params(cls, params):
-        k_v_it = ((param.name, param) for param in params)
+        # create a copy of each param
+        k_v_it = ((param.name, copy(param)) for param in params)
         return cls(k_v_it)
 
     def __iter__(self):
@@ -189,23 +192,24 @@ class Parameters(Mapping):
 
 
 class Dumpling:
-    def __init__(self, cmd, params,
-                 stdin=None, stdout=None, stderr=None,
-                 cwd=None, tmp_dir=None,
-                 version='', url=''):
+    def __init__(self, cmd, params, version='', url='',
+                 cwd=None, tmp_dir=mkdtemp(), stdin=None, stdout=None, stderr=None):
         if isinstance(cmd, str):
             cmd = [cmd]
         self.cmd = cmd
-        self.stdout = stdout
-        self.stderr = stderr
-        self.stdin = stdin
-        if tmp_dir is None:
-            tmp_dir = mkdtemp()
-        self.tmp_dir = tmp_dir
-        self.cwd = cwd
         self.params = params
         self.version = version
         self.url = url
+        self.tmp_dir = tmp_dir
+        if stdin is not None:
+            stdin = open(stdin)
+        self.stdin = stdin
+        if stdout is None:
+            self.stdout = NamedTemporaryFile(dir=self.tmp_dir)
+        if stderr is None:
+            self.stderr = NamedTemporaryFile(dir=self.tmp_dir)
+        self.cwd = cwd
+        self._closed = False
 
     @property
     def command(self):
@@ -220,9 +224,20 @@ class Dumpling:
 
     def __call__(self, **kwargs):
         ''''''
+        if self._closed is False:
+            raise ValueError()
+
         self.params.update(**kwargs)
-        print(self.command)
         p = Popen(self.command, cwd=self.cwd, shell=True,
                   stdin=self.stdin, stdout=self.stdout, stderr=self.stderr)
         p.wait()
         return p
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._closed = True
+        self.stdout.close()
+        self.stderr.close()
+        rmtree(self.tmp_dir)
