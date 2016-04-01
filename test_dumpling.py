@@ -111,5 +111,13 @@ class ParametersTests(Tests):
             self.params['xxx'] = 3
 
 
+class DumplingTests(TestCase):
+    def setUp(self):
+        pass
+
+    def test(self):
+        pass
+
+
 if __name__ == '__main__':
     main()

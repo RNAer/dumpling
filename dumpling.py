@@ -3,8 +3,11 @@ from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
 from collections import OrderedDict
 from collections.abc import Mapping
-from subprocess import Popen, PIPE
-from copy import copy, deepcopy
+from subprocess import Popen
+from copy import deepcopy
+
+
+__version__ = '0.1.0'
 
 
 def check_choice(it):
@@ -34,6 +37,7 @@ class Param:
 
     @property
     def value(self):
+        '''The value of the parameter.'''
         return self.__value
 
     @value.setter
@@ -43,6 +47,7 @@ class Param:
         self.__value = v
 
     def on(self, value):
+        '''Set the value of the parameter.'''
         self.value = value
         return self
 
@@ -97,6 +102,7 @@ class OptionParam(Param):
 
     @property
     def alias(self):
+        '''The alias for parameter.'''
         return self.__alias
 
     @alias.setter
@@ -136,9 +142,11 @@ class OptionParam(Param):
         return other.name == self.name and other.value == self.value
 
     def is_on(self):
+        '''Check if the value is set for the parameter.'''
         return not self.is_off()
 
     def is_off(self):
+        '''Check if the value is unset for the parameter.'''
         return self.value is False or self.value is None
 
     def _get_arg(self):
@@ -162,8 +170,9 @@ class Parameters(Mapping):
 
     @classmethod
     def from_params(cls, params):
+        '''Construct an instance from a list of OptionParam or ArgmntParam.'''
         # create a copy of each param
-        k_v_it = ((param.name, copy(param)) for param in params)
+        k_v_it = ((param.name, deepcopy(param)) for param in params)
         return cls(k_v_it)
 
     def __iter__(self):
@@ -191,10 +200,12 @@ class Parameters(Mapping):
             raise ValueError(msg.format(v, k))
 
     def update(self, **kwargs):
+        '''Update the parameter values.'''
         for k in kwargs:
             self[k].on(kwargs[k])
 
     def off(self):
+        '''Turn off all the parameters.'''
         for k in self._data:
             self[k].off()
 
@@ -254,6 +265,7 @@ class Dumpling:
         proc.wait()
 
         yield proc.returncode, stdout, stderr
+        # reset parameters
         self.params = p
         for f in [stdout, stderr, stdin]:
             try:

@@ -8,18 +8,9 @@
 # The full license is in the file COPYING.txt, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import re
-import ast
-from setuptools import find_packages, setup
+from setuptools import setup
+import dumpling
 
-
-# version parsing from __init__ pulled from Flask's setup.py
-# https://github.com/mitsuhiko/flask/blob/master/setup.py
-_version_re = re.compile(r'__version__\s+=\s+(.*)')
-
-with open('dumpling/__init__.py', 'rb') as f:
-    hit = _version_re.search(f.read().decode('utf-8')).group(1)
-    version = str(ast.literal_eval(hit))
 
 classifiers = [
     'Development Status :: 3 - Alpha',
@@ -41,7 +32,7 @@ with open('README.org') as f:
 
 
 setup(name='dumpling',
-      version=version,
+      version=dumpling.__version__,
       license='BSD',
       description=description,
       long_description=long_description,
@@ -50,9 +41,9 @@ setup(name='dumpling',
       author_email="zhenjiang.xu@gmail.com",
       maintainer_email="zhenjiang.xu@gmail.com",
       url='http://github.com/rnaer/dumpling',
+      py_modules=["dumpling"],
       test_suite='nose.collector',
-      packages=find_packages(),
       install_requires=[],
       extras_require={'test': ["nose", "pep8", "flake8"],
                       'coverage': ["coverage"],
-                      'doc': ["Sphinx == 1.3.3"]})
+                      'doc': ["Sphinx"]})
