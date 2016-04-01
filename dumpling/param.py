@@ -1,10 +1,10 @@
 from keyword import iskeyword
-from tempfile import mkdtemp, NamedTemporaryFile
+from contextlib import contextmanager
+from tempfile import NamedTemporaryFile
 from collections import OrderedDict
 from collections.abc import Mapping
-from subprocess import Popen
-from copy import copy
-from shutil import rmtree
+from subprocess import Popen, PIPE
+from copy import copy, deepcopy
 
 
 def check_choice(it):
@@ -70,9 +70,14 @@ class ArgmntParam(Param):
     def __repr__(self):
         # if isinstance(self.value, bool):
         s = '{}(name="{}", value={}, formatter={}, help="{}")'
-        return s.format(self.__class__.__name__,
-                        self.name, self.value, self.formatter.__name__,
-                        self.help)
+        p = (repr(i) for i in [self.name, self.value, self.formatter, self.help])
+        return s.format(self.__class__.__name__, *p)
+
+    def _get_arg(self):
+        if self.is_on():
+            return [self.value]
+        else:
+            return []
 
 
 class OptionParam(Param):
@@ -113,10 +118,10 @@ class OptionParam(Param):
 
     def __repr__(self):
         # if isinstance(self.value, bool):
-        s = '{}(name="{}", alias="{}", value={}, formatter={}, help="{}", delimiter="{}")'
-        return s.format(self.__class__.__name__,
-                        self.name, self.alias, self.value, self.formatter.__name__,
-                        self.help, self.delimiter)
+        s = '{}(name={}, alias={}, value={}, formatter={}, help={}, delimiter={})'
+        p = (repr(i) for i in [self.name, self.alias, self.value, self.formatter,
+                               self.help, self.delimiter])
+        return s.format(self.__class__.__name__, *p)
 
     def __str__(self):
         if self.is_off():
@@ -135,6 +140,15 @@ class OptionParam(Param):
 
     def is_off(self):
         return self.value is False or self.value is None
+
+    def _get_arg(self):
+        if self.is_on():
+            if self.delimiter.isspace():
+                return [self.name, self.value]
+            else:
+                return ['{}{}{}'.format(self.name, self.delimiter, self.value)]
+        else:
+            return []
 
 
 class Parameters(Mapping):
@@ -192,24 +206,13 @@ class Parameters(Mapping):
 
 
 class Dumpling:
-    def __init__(self, cmd, params, version='', url='',
-                 cwd=None, tmp_dir=mkdtemp(), stdin=None, stdout=None, stderr=None):
+    def __init__(self, cmd, params, version='', url=''):
         if isinstance(cmd, str):
             cmd = [cmd]
         self.cmd = cmd
         self.params = params
         self.version = version
         self.url = url
-        self.tmp_dir = tmp_dir
-        if stdin is not None:
-            stdin = open(stdin)
-        self.stdin = stdin
-        if stdout is None:
-            self.stdout = NamedTemporaryFile(dir=self.tmp_dir)
-        if stderr is None:
-            self.stderr = NamedTemporaryFile(dir=self.tmp_dir)
-        self.cwd = cwd
-        self._closed = False
 
     @property
     def command(self):
@@ -217,27 +220,43 @@ class Dumpling:
         command.extend(self.cmd)
         for k in self.params:
             p = self.params[k]
-            arg = str(p)
-            if arg:
-                command.append(arg)
-        return ' '.join(command)
+            command.extend(p._get_arg())
+        return command
 
-    def __call__(self, **kwargs):
-        ''''''
-        if self._closed is False:
-            raise ValueError()
+    def __repr__(self):
+        return '{}\n{}'.format(repr(self.cmd), repr(self.params))
 
+    def __str__(self):
+        return ' '.join(self.command)
+
+    def update(self, **kwargs):
         self.params.update(**kwargs)
-        p = Popen(self.command, cwd=self.cwd, shell=True,
-                  stdin=self.stdin, stdout=self.stdout, stderr=self.stderr)
-        p.wait()
-        return p
 
-    def __enter__(self):
-        return self
+    @contextmanager
+    def __call__(self, cwd=None, stdin=None, stdout=None, stderr=None,
+                 **kwargs):
+        ''''''
+        p = deepcopy(self.params)
+        self.params.update(**kwargs)
+        if stdout is None:
+            stdout = NamedTemporaryFile()
+        elif isinstance(stdout, str):
+            stdout = open(stdout, 'r+')
+        if stderr is None:
+            stderr = NamedTemporaryFile()
+        elif isinstance(stderr, str):
+            stderr = open(stderr, 'r+')
+        if isinstance(stdin, str):
+            stdin = open(stdin, 'r+')
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        self._closed = True
-        self.stdout.close()
-        self.stderr.close()
-        rmtree(self.tmp_dir)
+        proc = Popen(self.command, cwd=cwd, shell=False,
+                     stdin=stdin, stdout=stdout, stderr=stderr)
+        proc.wait()
+
+        yield proc.returncode, stdout, stderr
+        self.params = p
+        for f in [stdout, stderr, stdin]:
+            try:
+                f.close()
+            except AttributeError:
+                pass
