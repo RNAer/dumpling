@@ -75,7 +75,8 @@ class ArgmntParam(Param):
     def __repr__(self):
         # if isinstance(self.value, bool):
         s = '{}(name="{}", value={}, formatter={}, help="{}")'
-        p = (repr(i) for i in [self.name, self.value, self.formatter, self.help])
+        p = (repr(i) for i in [self.name, self.value,
+                               self.formatter, self.help])
         return s.format(self.__class__.__name__, *p)
 
     def _get_arg(self):
@@ -125,8 +126,8 @@ class OptionParam(Param):
     def __repr__(self):
         # if isinstance(self.value, bool):
         s = '{}(name={}, alias={}, value={}, formatter={}, help={}, delimiter={})'
-        p = (repr(i) for i in [self.name, self.alias, self.value, self.formatter,
-                               self.help, self.delimiter])
+        p = (repr(i) for i in [self.name, self.alias, self.value,
+                               self.formatter, self.help, self.delimiter])
         return s.format(self.__class__.__name__, *p)
 
     def __str__(self):
