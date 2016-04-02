@@ -1,10 +1,9 @@
 from unittest import TestCase, main
 from shlex import quote
 from collections import namedtuple
-import re
 
 from dumpling import (
-    OptionParam, check_choice, check_range,
+    ArgmntParam, OptionParam, check_choice, check_range,
     Parameters)
 
 
@@ -30,22 +29,33 @@ class Tests(TestCase):
     def setUp(self):
         self.tests = [
             OptionParam('-i'),
-            OptionParam('--output', value='file path', alias='o', formatter=quote),
+            OptionParam('--db', value='file path', formatter=quote),
             OptionParam('-e', value=0.1, formatter=check_range(0, 1000)),
-            OptionParam('-1', value=True, help='Left-end read')]
+            OptionParam('-1', alias='r1', value=True, help='Left-end read'),
+            ArgmntParam('out', 'output.txt')]
 
 
 class ArgmntParamTests(Tests):
-    pass
+    def test_repr(self):
+        exp = "ArgmntParam(name='out', value='output.txt', formatter=<lambda>, help='')"
+        self.assertEqual(repr(self.tests[-1]), exp)
+
+    def test_get_arg(self):
+        p = self.tests[-1]
+        exp = [p.value]
+        self.assertEqual(p._get_arg(), exp)
+        p.off()
+        self.assertEqual(p._get_arg(), [])
+
 
 class OptionParamTests(Tests):
     def test_init(self):
         attrs = ['name', 'alias', 'value', 'help']
         Exp = namedtuple('Exp', attrs)
         exps = [Exp('-i', 'i', None, ''),
-                Exp('--output', 'o', "'file path'", ''),
+                Exp('--db', 'db', "'file path'", ''),
                 Exp('-e', 'e', 0.1, ''),
-                Exp('-1', '_1', True, 'Left-end read')]
+                Exp('-1', 'r1', True, 'Left-end read')]
         for test, exp in zip(self.tests, exps):
             for attr in attrs:
                 self.assertEqual(getattr(test, attr), getattr(exp, attr))
@@ -78,13 +88,12 @@ class OptionParamTests(Tests):
             param.on(-2)
 
     def test_repr(self):
-        exp = (r"OptionParam\(name='-i', alias='i', value=None, "
-               r"formatter=<function OptionParam.<lambda> at \w+>, "
-               r"help='', delimiter=' '\)$")
-        self.assertTrue(re.match(exp, repr(self.tests[0])) is not None)
+        exp = ("OptionParam(name='-i', alias='i', value=None, "
+               "formatter=<lambda>, help='', delimiter=' ')")
+        self.assertTrue(exp, repr(self.tests[0]))
 
     def test_str(self):
-        exps = ['', "--output 'file path'", '-e 0.1', '-1']
+        exps = ['', "--db 'file path'", '-e 0.1', '-1']
         for test, exp in zip(self.tests, exps):
             self.assertEqual(str(test), exp)
 
@@ -98,6 +107,13 @@ class OptionParamTests(Tests):
         a = OptionParam(name='-o', alias='i')
         b = OptionParam(name='-i', alias='i')
         self.assertNotEqual(a, b)
+
+    def test_get_args(self):
+        p = self.tests[2]
+        exp = ['-e', 0.1]
+        self.assertEqual(p._get_arg(), exp)
+        p.off()
+        self.assertEqual(p._get_arg(), [])
 
 
 class ParametersTests(Tests):
@@ -113,7 +129,8 @@ class ParametersTests(Tests):
     def test_getitem(self):
         for p in self.tests:
             self.assertEqual(p, self.params[p.name])
-            self.assertEqual(p, self.params[p.alias])
+            if isinstance(p, OptionParam):
+                self.assertEqual(p, self.params[p.alias])
 
     def test_getitem_raise(self):
         with self.assertRaises(KeyError):
@@ -133,6 +150,30 @@ class ParametersTests(Tests):
     def test_setitem_raise(self):
         with self.assertRaises(ValueError):
             self.params['xxx'] = 3
+
+    def test_contains(self):
+        for k in self.params:
+            self.assertTrue(k in self.params)
+
+        for alias in self.params._alias_map:
+            self.assertTrue(alias in self.params)
+
+        self.assertFalse('xxx' in self.params)
+
+    def test_off(self):
+        self.params.off()
+        for k in self.params:
+            self.assertTrue(self.params[k].value is None)
+
+    def test_update(self):
+        kv = {'-i': 'input.txt',
+              'db': 'db.txt',
+              'e': 3}
+        self.params.update(**kv)
+        for k in kv:
+            self.assertEqual(self.params[k].value, kv[k])
+        # check the not updated param is still the same
+        self.assertEqual(self.params['r1'], self.tests[3])
 
 
 class DumplingTests(TestCase):

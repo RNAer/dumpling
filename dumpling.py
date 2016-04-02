@@ -67,6 +67,10 @@ class Param:
         else:
             return self.value
 
+    def __eq__(self, other):
+        ''''''
+        return other.name == self.name and other.value == self.value
+
 
 class ArgmntParam(Param):
     '''Class of argument parameter.
@@ -74,10 +78,9 @@ class ArgmntParam(Param):
 
     def __repr__(self):
         # if isinstance(self.value, bool):
-        s = '{}(name="{}", value={}, formatter={}, help="{}")'
-        p = (repr(i) for i in [self.name, self.value,
-                               self.formatter, self.help])
-        return s.format(self.__class__.__name__, *p)
+        s = '{}(name={!r}, value={!r}, formatter={}, help={!r})'
+        return s.format(self.__class__.__name__, self.name, self.value,
+                        self.formatter.__name__, self.help)
 
     def _get_arg(self):
         if self.is_on():
@@ -119,16 +122,13 @@ class OptionParam(Param):
     def convert_name_to_alias(s):
         '''Try to convert str to legal Python identifier.'''
         s = s.strip().lstrip('-').replace('-', '_')
-        if s[0].isdigit():
-            s = '_' + s
         return s
 
     def __repr__(self):
         # if isinstance(self.value, bool):
-        s = '{}(name={}, alias={}, value={}, formatter={}, help={}, delimiter={})'
-        p = (repr(i) for i in [self.name, self.alias, self.value,
-                               self.formatter, self.help, self.delimiter])
-        return s.format(self.__class__.__name__, *p)
+        s = '{}(name={!r}, alias={!r}, value={!r}, formatter={}, help={!r}, delimiter={!r})'
+        return s.format(self.__class__.__name__, self.name, self.alias, self.value,
+                        self.formatter.__name__, self.help, self.delimiter)
 
     def __str__(self):
         if self.is_off():
@@ -137,18 +137,6 @@ class OptionParam(Param):
             return self.name
         else:
             return '{}{}{}'.format(self.name, self.delimiter, self.value)
-
-    def __eq__(self, other):
-        ''''''
-        return other.name == self.name and other.value == self.value
-
-    def is_on(self):
-        '''Check if the value is set for the parameter.'''
-        return not self.is_off()
-
-    def is_off(self):
-        '''Check if the value is unset for the parameter.'''
-        return self.value is False or self.value is None
 
     def _get_arg(self):
         if self.is_on():
@@ -197,13 +185,13 @@ class Parameters(Mapping):
         if k in self:
             self[k].on(v)
         else:
-            msg = 'You cannot set value {} on key {}'
+            msg = 'You cannot set value {!r} on unknown key {!r}'
             raise ValueError(msg.format(v, k))
 
     def update(self, **kwargs):
         '''Update the parameter values.'''
         for k in kwargs:
-            self[k].on(kwargs[k])
+            self[k] = kwargs[k]
 
     def off(self):
         '''Turn off all the parameters.'''
