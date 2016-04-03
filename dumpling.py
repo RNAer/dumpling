@@ -29,9 +29,9 @@ def check_range(minimum, maximum):
 
 
 class Param:
-    def __init__(self, name, value=None, formatter=lambda i: i, help=''):
+    def __init__(self, name, value=None, action=lambda i: i, help=''):
         self.name = name
-        self.formatter = formatter
+        self.action = action
         self.value = value
         self.help = help
 
@@ -43,7 +43,7 @@ class Param:
     @value.setter
     def value(self, v):
         if v is not None:
-            v = self.formatter(v)
+            v = self.action(v)
         self.__value = v
 
     def on(self, value):
@@ -78,13 +78,13 @@ class ArgmntParam(Param):
 
     def __repr__(self):
         # if isinstance(self.value, bool):
-        s = '{}(name={!r}, value={!r}, formatter={}, help={!r})'
+        s = '{}(name={!r}, value={!r}, action={}, help={!r})'
         return s.format(self.__class__.__name__, self.name, self.value,
-                        self.formatter.__name__, self.help)
+                        self.action.__name__, self.help)
 
     def _get_arg(self):
         if self.is_on():
-            return [self.value]
+            return [str(self.value)]
         else:
             return []
 
@@ -94,13 +94,13 @@ class OptionParam(Param):
 
     Parameters
     ----------
-    formatter : callable
+    action : callable
         To validate and tokenize the `value` into right format.
         For example, if `value` is a file path, use `shlex.quote`.
     '''
-    def __init__(self, name, alias=None, value=None, formatter=lambda i: i,
+    def __init__(self, name, alias=None, value=None, action=lambda i: i,
                  help='', delimiter=' '):
-        super().__init__(name, value, formatter, help)
+        super().__init__(name, value, action, help)
         self.alias = alias
         self.delimiter = delimiter
 
@@ -126,9 +126,9 @@ class OptionParam(Param):
 
     def __repr__(self):
         # if isinstance(self.value, bool):
-        s = '{}(name={!r}, alias={!r}, value={!r}, formatter={}, help={!r}, delimiter={!r})'
+        s = '{}(name={!r}, alias={!r}, value={!r}, action={}, help={!r}, delimiter={!r})'
         return s.format(self.__class__.__name__, self.name, self.alias, self.value,
-                        self.formatter.__name__, self.help, self.delimiter)
+                        self.action.__name__, self.help, self.delimiter)
 
     def __str__(self):
         if self.is_off():
@@ -141,7 +141,7 @@ class OptionParam(Param):
     def _get_arg(self):
         if self.is_on():
             if self.delimiter.isspace():
-                return [self.name, self.value]
+                return [self.name, str(self.value)]
             else:
                 return ['{}{}{}'.format(self.name, self.delimiter, self.value)]
         else:
@@ -210,7 +210,7 @@ class Dumpling:
         if isinstance(cmd, str):
             cmd = [cmd]
         self.cmd = cmd
-        self.params = params
+        self.params = deepcopy(params)
         self.version = version
         self.url = url
 
@@ -224,7 +224,15 @@ class Dumpling:
         return command
 
     def __repr__(self):
-        return '{}\n{}'.format(repr(self.cmd), repr(self.params))
+        items = []
+        name = self.__class__.__name__
+        items.append(name)
+        items.append('-' * len(name))
+        items.append('CMD: {}'.format(' '.join(self.cmd)))
+        items.append('CMD version: {!r}'.format(self.version))
+        items.append('CMD URL: {!r}'.format(self.url))
+        items.append('CMD Parameter:\n{!r}'.format(self.params))
+        return '\n'.join(items)
 
     def __str__(self):
         return ' '.join(self.command)
@@ -235,25 +243,44 @@ class Dumpling:
     @contextmanager
     def __call__(self, cwd=None, stdin=None, stdout=None, stderr=None,
                  **kwargs):
-        ''''''
+        '''
+        Parameters
+        ----------
+        cwd : str
+            working dir
+        stdin : str
+            file to provide stdin
+        stdout, stderr : str or `subprocess.DEVNULL`
+            file to store output.
+
+        Yield
+        -----
+        tuple: int, file object (or `subprocess.DEVNULL`), file object (or `subprocess.DEVNULL`)
+        '''
         p = deepcopy(self.params)
         self.params.update(**kwargs)
         if stdout is None:
-            stdout = NamedTemporaryFile()
+            stdout = NamedTemporaryFile('w+')
         elif isinstance(stdout, str):
-            stdout = open(stdout, 'r+')
+            stdout = open(stdout, 'w+')
         if stderr is None:
-            stderr = NamedTemporaryFile()
+            stderr = NamedTemporaryFile('w+')
         elif isinstance(stderr, str):
-            stderr = open(stderr, 'r+')
+            stderr = open(stderr, 'w+')
         if isinstance(stdin, str):
-            stdin = open(stdin, 'r+')
+            stdin = open(stdin, 'r')
 
         proc = Popen(self.command, cwd=cwd, shell=False,
                      stdin=stdin, stdout=stdout, stderr=stderr)
         proc.wait()
+        for f in [stdout, stderr]:
+            try:
+                f.seek(0)
+            except AttributeError:
+                pass
 
         yield proc.returncode, stdout, stderr
+
         # reset parameters
         self.params = p
         for f in [stdout, stderr, stdin]:
