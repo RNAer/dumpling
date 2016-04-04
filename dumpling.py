@@ -7,7 +7,7 @@ from subprocess import Popen
 from copy import deepcopy
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.2'
 
 
 def check_choice(it):

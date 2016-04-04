@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # ----------------------------------------------------------------------------
-# Copyright (c) 2015--, micronota development team.
+# Copyright (c) 2016--, dumpling development team.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -13,7 +13,7 @@ import dumpling
 
 
 classifiers = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
     'License :: OSI Approved :: BSD License',
     'Environment :: Console',
     'Topic :: Software Development :: Libraries',
@@ -23,6 +23,7 @@ classifiers = [
     'Programming Language :: Python :: 3.5',
     'Operating System :: Unix',
     'Operating System :: POSIX',
+    'Operating System :: Microsoft',
     'Operating System :: MacOS :: MacOS X']
 
 
@@ -37,6 +38,7 @@ setup(name='dumpling',
       description=description,
       long_description=long_description,
       classifiers=classifiers,
+      keywords='application wrapper',
       author="Zhenjiang Zech Xu",
       author_email="zhenjiang.xu@gmail.com",
       maintainer_email="zhenjiang.xu@gmail.com",
