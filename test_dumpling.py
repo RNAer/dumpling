@@ -35,7 +35,7 @@ class Tests(TestCase):
         self.tests = [
             OptionParam('--db', value='file path'),
             OptionParam('-e', value=0.1, action=check_range(0, 1000)),
-            OptionParam('-1', alias='r1', value=False, help='Left-end read'),
+            OptionParam('-1', name='r1', value=False, help='Left-end read'),
             ArgmntParam('out', 'output.txt')]
         self.params = Parameters.from_params(self.tests)
 
@@ -55,7 +55,7 @@ class ArgmntParamTests(Tests):
 
 class OptionParamTests(Tests):
     def test_init(self):
-        attrs = ['name', 'alias', 'value', 'help']
+        attrs = ['flag', 'name', 'value', 'help']
         Exp = namedtuple('Exp', attrs)
         exps = [Exp('--db', 'db', 'file path', ''),
                 Exp('-e', 'e', 0.1, ''),
@@ -92,7 +92,7 @@ class OptionParamTests(Tests):
             param.on(-2)
 
     def test_repr(self):
-        exp = ("OptionParam(name='-e', alias='e', value=0.1, "
+        exp = ("OptionParam(flag='-e', name='e', value=0.1, "
                "action=<lambda>, help='', delimiter=' ')")
         self.assertTrue(exp, repr(self.tests[1]))
 
@@ -102,14 +102,14 @@ class OptionParamTests(Tests):
             self.assertEqual(str(test), exp)
 
     def test_eq(self):
-        a = OptionParam(name='-i', alias='input')
-        b = OptionParam(name='-i', alias='i')
+        a = OptionParam(flag='-i', name='input')
+        b = OptionParam(flag='-i', name='i')
         self.assertEqual(a, b)
         a.on(2)
         b.on(1)
         self.assertNotEqual(a, b)
-        a = OptionParam(name='-o', alias='i')
-        b = OptionParam(name='-i', alias='i')
+        a = OptionParam(flag='-o', name='i')
+        b = OptionParam(flag='-i', name='i')
         self.assertNotEqual(a, b)
 
     def test_get_args(self):
@@ -130,7 +130,7 @@ class ParametersTests(Tests):
         for p in self.tests:
             self.assertEqual(p, self.params[p.name])
             if isinstance(p, OptionParam):
-                self.assertEqual(p, self.params[p.alias])
+                self.assertEqual(p, self.params[p.name])
 
     def test_getitem_raise(self):
         with self.assertRaises(KeyError):
@@ -143,7 +143,7 @@ class ParametersTests(Tests):
             old_v = p.value
             self.params[name] = v
             self.assertEqual(self.params[name], p.on(v))
-            name = p.alias
+            name = p.name
             self.params[name] = old_v
             self.assertEqual(self.params[name], p.on(old_v))
 
@@ -155,8 +155,8 @@ class ParametersTests(Tests):
         for k in self.params:
             self.assertTrue(k in self.params)
 
-        for alias in self.params._alias_map:
-            self.assertTrue(alias in self.params)
+        for name in self.params._name_map:
+            self.assertTrue(name in self.params)
 
         self.assertFalse('xxx' in self.params)
 
@@ -200,9 +200,9 @@ CMD: {}
 CMD version: '1.0.9'
 CMD URL: 'www.test.com'
 CMD Parameter:
-OptionParam(name='--db', alias='db', value='file path', action=<lambda>, help='', delimiter=' ')
-OptionParam(name='-e', alias='e', value=0.1, action=func, help='', delimiter=' ')
-OptionParam(name='-1', alias='r1', value=False, action=<lambda>, help='Left-end read', delimiter=' ')
+OptionParam(flag='--db', name='db', value='file path', action=<lambda>, help='', delimiter=' ')
+OptionParam(flag='-e', name='e', value=0.1, action=func, help='', delimiter=' ')
+OptionParam(flag='-1', name='r1', value=False, action=<lambda>, help='Left-end read', delimiter=' ')
 ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format(self.cmd)
         self.assertEqual(repr(self.tester), exp)
 
