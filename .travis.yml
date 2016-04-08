@@ -14,7 +14,5 @@ after_success:
   - coveralls
 notifications:
   webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/730436c08fd7f89462b0
     on_success: change
     on_failure: always
