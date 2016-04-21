@@ -12,7 +12,36 @@ __version__ = '0.1.2'
 
 
 def check_choice(it):
+    '''return a function to check the value is a choice of a list of legal values.
+
+    Parameters
+    ----------
+    it : `Iterable`
+        A set of all legal values.
+
+    Returns
+    -------
+    function
+        A function that receive the value, does the checking, and return the value
+        if it is legal.
+    '''
     def func(v):
+        '''check value.
+
+        Parameters
+        ----------
+        v : arbitrary
+
+        Returns
+        -------
+        v
+            The input value.
+
+        Raises
+        ------
+        ValueError
+            If the given value of `v` is not a choice from the list of legal values.
+        '''
         if v not in it:
             msg = 'Illegal value: {}'
             raise ValueError(msg.format(v))
@@ -21,7 +50,38 @@ def check_choice(it):
 
 
 def check_range(minimum, maximum):
+    '''return a function to check the value is in the legal range.
+
+    Parameters
+    ----------
+    minimum : `Numeric`
+        the lower bound
+    maximum : `Numeric`
+        the upper bound
+
+    Returns
+    -------
+    function
+        A function that receive the value and does the checking, and return the value
+        if it is legal.
+    '''
     def func(v):
+        '''check value.
+
+        Parameters
+        ----------
+        v : `Numeric`
+
+        Returns
+        -------
+        v
+            The input value.
+
+        Raises
+        ------
+        ValueError
+            If the given value of `v` is not inside the (mininum, maximum).
+        '''
         if not minimum < v < maximum:
             msg = 'Illegal value: {}'
             raise ValueError(msg.format(v))
@@ -98,9 +158,10 @@ class ArgmntParam(Param):
         The parameter name.
     value : arbitrary
         The value for the parameter (default is `None`)
-    aciton : callable
-        The callable to operate of the value to do validation, formatting,
-        etc. The default callable is to return the value itself.
+    action : callable
+        The callable to operate on the value to do validation, formatting,
+        etc. The default callable is to return the value itself without doing
+        anything. See `check_choice` and `check_range`.
     help : str
         The help or description message for the parameter.
 
@@ -167,7 +228,8 @@ class OptionParam(Param):
         The value for the parameter (default is `None`).
     aciton : callable
         The callable to operate of the value to do validation, formatting,
-        etc. The default callable is to return the value itself.
+        etc. The default callable is to return the value itself without doing
+        anything. See `check_choice` and `check_range`.
     help : str
         The help or description message for the parameter.
     delimiter : str
@@ -314,7 +376,13 @@ class Parameters(Mapping):
 
     @classmethod
     def from_params(cls, params):
-        '''Construct an instance from a list of OptionParam or ArgmntParam.'''
+        '''Construct an instance from a list of OptionParam or ArgmntParam.
+
+        Parameters
+        ----------
+        params : list of `Param`
+            a list of parameters.
+        '''
         # create a copy of each param
         k_v_it = ((param.name, deepcopy(param)) for param in params)
         return cls(k_v_it)
@@ -410,7 +478,7 @@ class Dumpling:
     Parameters
     ----------
     cmd : str or list of str
-        The command or a list of command and its nested subcommand(s)
+        The command or a list of command and its nested subcommand(s), e.g. ['git', 'clone']
     params : `Parameters`
         The parameters of the app
     version : str
@@ -562,8 +630,9 @@ class Dumpling:
 
         Notes
         -----
-        All the files opened will be closed and the application parameters will be reset before
-        after this function call.
+        All the files opened will be closed and the application parameters
+        settings in this function thru `kwargs` will be undo when this function
+        call is finished.
         '''
         p = deepcopy(self.params)
         self.params.update(**kwargs)
