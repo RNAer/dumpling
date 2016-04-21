@@ -22,8 +22,8 @@ help:
 test:
 	$(TEST_COMMAND)
 pep8:
-	flake8 .
+	flake8 *.py
 html:
 	make -C doc clean html
 
-all: pep8 test
+all: test pep8 html
