@@ -157,7 +157,9 @@ class ArgmntParam(Param):
     name : str
         The parameter name.
     value : arbitrary
-        The value for the parameter (default is `None`)
+        The value for the parameter (default is `None`). If the value is a
+        string of file or directory path, users don't need to add extra quotes
+        because it passes to `subprocess.Popen`.
     action : callable
         The callable to operate on the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
@@ -174,6 +176,7 @@ class ArgmntParam(Param):
 
     Examples
     --------
+    >>> from dumpling import ArgmntParam
     >>> def end_with_dmnd(s):
     ...     if s.endswith('.dmnd'):
     ...         return s[:-5]
@@ -225,7 +228,9 @@ class OptionParam(Param):
         If it is `None`, it will try to automatically infer name from the flag
         by removing the beginning "-" and replace "-" with "_".
     value : arbitrary
-        The value for the parameter (default is `None`).
+        The value for the parameter (default is `None`). If the value is a
+        string of file or directory path, users don't need to add extra quotes
+        because it passes to `subprocess.Popen`.
     aciton : callable
         The callable to operate of the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
@@ -324,6 +329,18 @@ class OptionParam(Param):
 
 class Parameters(Mapping):
     '''Store the parameters of a command line executable as a `OrderedDict`.
+
+    The parameters are stored as `OrderedDict` and this object has the same API
+    with `OrderedDict`. Its value is an object of `Param`'s child class. Its
+    key is either the `Param.name` or the `Param.flag`, either of which can
+    be used to retrieve its value. The order of the keys in the `OrderedDict`
+    is the parameter order given in __init__ and is used to order
+    the parameters as in command line.
+
+    Parameters
+    ----------
+    params : `Iterable`
+        positional arguments of `Param` or its child classes.
 
     Examples
     --------
@@ -592,7 +609,9 @@ class Dumpling:
         return ' '.join(self.command)
 
     def update(self, **kwargs):
-        '''Update the parameters in this app wrapper.
+        '''Update the parameters in this app controller.
+
+        It just calls `Parameters.update` function.
 
         Parameters
         ----------
