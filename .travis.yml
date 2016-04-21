@@ -7,7 +7,7 @@ os:
   - linux
 #  - osx
 install:
-  - pip install pep8 flake8 coverage coveralls nose
+  - pip install pep8 flake8 coverage coveralls nose sphinx
   - pip install .
 script:
   - WITH_COVERAGE=TRUE make all
