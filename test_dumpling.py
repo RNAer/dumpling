@@ -37,7 +37,7 @@ class Tests(TestCase):
             OptionParam('-e', value=0.1, action=check_range(0, 1000)),
             OptionParam('-1', name='r1', value=False, help='Left-end read'),
             ArgmntParam('out', 'output.txt')]
-        self.params = Parameters.from_params(self.tests)
+        self.params = Parameters(*self.tests)
 
 
 class ArgmntParamTests(Tests):
@@ -122,7 +122,7 @@ class OptionParamTests(Tests):
 
 class ParametersTests(Tests):
     def test_len(self):
-        params = Parameters([])
+        params = Parameters()
         self.assertEqual(len(params), 0)
         self.assertEqual(len(self.tests), len(self.params))
 

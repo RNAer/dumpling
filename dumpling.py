@@ -330,7 +330,7 @@ class Parameters(Mapping):
     >>> from dumpling import ArgmntParam, OptionParam, Parameters
     >>> params = [OptionParam('-f', help='force overwriting'),
     ...           ArgmntParam('input', help='input cm file')]
-    >>> p = Parameters.from_params(params)
+    >>> p = Parameters(*params)
     >>> p
     OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
@@ -364,18 +364,8 @@ class Parameters(Mapping):
     -f
     SAM.cm
     '''
-    def __init__(self, *args, **kwargs):
-        self._data = OrderedDict(*args, **kwargs)
-        self._name_map = {}
-        for k in self._data:
-            p = self._data[k]
-            if isinstance(p, OptionParam):
-                self._name_map[p.flag] = p.name
-            elif not isinstance(p, Param):
-                self._data[k] = OptionParam(*p)
 
-    @classmethod
-    def from_params(cls, params):
+    def __init__(self, *params):
         '''Construct an instance from a list of OptionParam or ArgmntParam.
 
         Parameters
@@ -384,8 +374,15 @@ class Parameters(Mapping):
             a list of parameters.
         '''
         # create a copy of each param
-        k_v_it = ((param.name, deepcopy(param)) for param in params)
-        return cls(k_v_it)
+        k_v = [(param.name, deepcopy(param)) for param in params]
+        self._data = OrderedDict(k_v)
+        self._name_map = {}
+        for k in self._data:
+            p = self._data[k]
+            if isinstance(p, OptionParam):
+                self._name_map[p.flag] = p.name
+            elif not isinstance(p, Param):
+                self._data[k] = OptionParam(*p)
 
     def __iter__(self):
         '''Iterate over parameter in this object.
@@ -503,7 +500,7 @@ class Dumpling:
     >>> import stat
     >>> params = [OptionParam('-f', help='force overwriting'),
     ...           ArgmntParam('input', help='input cm file')]
-    >>> p = Parameters.from_params(params)
+    >>> p = Parameters(*params)
     >>> script = r"""#!/usr/bin/env python
     ... import argparse
     ... parser = argparse.ArgumentParser(description='Test CMD.')
