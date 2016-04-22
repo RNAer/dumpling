@@ -9,7 +9,8 @@ import stat
 
 from dumpling import (
     ArgmntParam, OptionParam, Parameters, Dumpling,
-    check_choice, check_range)
+    check_choice, check_range,
+    check_exit_status)
 
 
 class CheckTests(TestCase):
@@ -208,13 +209,16 @@ ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format
 
     def test_call_fail(self):
         p = self.tester()
-        err = ('usage: test.py [-h] --db DB -e E -1 R1 [OUT]\n'
-               'test.py: error: the following arguments are required: -1\n')
-        out = ''
-        self.assertEqual(p.stderr.read(), err)
-        self.assertEqual(p.stdout.read(), out)
-        self.assertEqual(p.returncode, 2)
         self.assertEqual(self.tester.params, self.params)
+        msg = ('finished with an error:\n'
+               'exit code: 2\n'
+               'stdout:\n'
+               '\n'
+               'stderr:\n'
+               'usage: test.py \[-h\] --db DB -e E -1 R1 \[OUT\]\n'
+               'test.py: error: the following arguments are required: -1\n')
+        with self.assertRaisesRegex(RuntimeError, msg):
+            check_exit_status(p)
 
     def test_call_succeed(self):
         self.tester.update(e=3, r1='R1.fq', out='output.txt')

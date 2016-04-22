@@ -464,9 +464,9 @@ class Parameters(Mapping):
 
         Parameters
         ----------
-        kwargs : keyword argument
-            The key and value to update the parameters in this `Parameters`
-            object.
+        kwargs : dict
+            keyword arguments. The key and value to update the parameters
+            in this `Parameters` object.
         '''
         for k in kwargs:
             self[k] = kwargs[k]
@@ -619,7 +619,7 @@ class Dumpling:
 
         Parameters
         ----------
-        args : tuple
+        args : `Iterable`
             positional arguments of parameter names/flags.
 
         Returns
@@ -653,12 +653,14 @@ class Dumpling:
         return proc
 
 
-def check_exit_status(code, out, err):
-    if code != 0:
+def check_exit_status(proc):
+    if proc.returncode != 0:
         msg = ['finished with an error:\n'
-               'exit code: {0}\n'.format(code)]
-        if out is not None:
-            msg.append('stdout: \n{1}\n'.format(out))
-        if err is not None:
-            msg.append('stderr: \n{2}\n'.format(err))
+               'exit code: {}\n'.format(proc.returncode)]
+        if proc.stdout is not None:
+            msg.append('stdout:\n{}\n'.format(proc.stdout.read()))
+            proc.stdout.close()
+        if proc.stderr is not None:
+            msg.append('stderr:\n{}\n'.format(proc.stderr.read()))
+            proc.stderr.close()
         raise RuntimeError(''.join(msg))
