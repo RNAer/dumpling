@@ -207,31 +207,30 @@ ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format
         self.assertEqual(repr(self.tester), exp)
 
     def test_call_fail(self):
-        with self.tester() as (exitcode, stdout, stderr):
-            err = ('usage: test.py [-h] --db DB -e E -1 R1 [OUT]\n'
-                   'test.py: error: the following arguments are required: -1\n')
-            out = ''
-            self.assertEqual(stderr.read(), err)
-            self.assertEqual(stdout.read(), out)
-            self.assertEqual(exitcode, 2)
+        p = self.tester()
+        err = ('usage: test.py [-h] --db DB -e E -1 R1 [OUT]\n'
+               'test.py: error: the following arguments are required: -1\n')
+        out = ''
+        self.assertEqual(p.stderr.read(), err)
+        self.assertEqual(p.stdout.read(), out)
+        self.assertEqual(p.returncode, 2)
         self.assertEqual(self.tester.params, self.params)
 
     def test_call_succeed(self):
-        with self.tester(e=3, r1='R1.fq', out='output.txt') as (exitcode, stdout, stderr):
-            out = 'file path\n3.0\nR1.fq\noutput.txt\n'
-            err = ''
-            self.assertEqual(stdout.read(), out)
-            self.assertEqual(stderr.read(), err)
-            self.assertEqual(exitcode, 0)
-        self.assertEqual(self.tester.params, self.params)
+        self.tester.update(e=3, r1='R1.fq', out='output.txt')
+        p = self.tester()
+        out = 'file path\n3.0\nR1.fq\noutput.txt\n'
+        err = ''
+        self.assertEqual(p.stdout.read(), out)
+        self.assertEqual(p.stderr.read(), err)
+        self.assertEqual(p.returncode, 0)
 
     def test_call_no_stdout_stderr(self):
-        with self.tester(e=3, r1='R1.fq', out='output.txt',
-                         stdout=DEVNULL, stderr=DEVNULL) as (exitcode, stdout, stderr):
-            self.assertEqual(stdout, DEVNULL)
-            self.assertEqual(stderr, DEVNULL)
-            self.assertEqual(exitcode, 0)
-        self.assertEqual(self.tester.params, self.params)
+        self.tester.update(e=3, r1='R1.fq', out='output.txt')
+        p = self.tester(stdout=DEVNULL, stderr=DEVNULL)
+        self.assertEqual(p.stdout, None)
+        self.assertEqual(p.stderr, None)
+        self.assertEqual(p.returncode, 0)
 
     def tearDown(self):
         rmtree(self.tmpd)

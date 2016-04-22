@@ -1,6 +1,4 @@
 from keyword import iskeyword
-from contextlib import contextmanager
-from tempfile import NamedTemporaryFile
 from collections import OrderedDict
 from collections.abc import Mapping
 from abc import ABC, abstractmethod
@@ -542,24 +540,16 @@ class Dumpling:
     CMD Parameter:
     OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
-    >>> with app(f=True, input='input file') as (exitcode, stdout, stderr):
-    ...     print(exitcode)
-    ...     print(stderr.read())
-    ...     print(stdout.read())
+    >>> app.update(f=True, input='input file')
+    >>> proc =  app()
+    >>> proc.returncode
     0
+    >>> print(proc.stderr.read())
     <BLANKLINE>
+    >>> print(proc.stdout.read())
     True
     'input file'
     <BLANKLINE>
-    >>> app  # doctest: +ELLIPSIS
-    Dumpling
-    --------
-    CMD: ...
-    CMD version: '1.0.0'
-    CMD URL: 'www.test.com'
-    CMD Parameter:
-    OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
-    ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
     >>> app.update(f=True, input='input file')
     >>> app.command  # doctest: +ELLIPSIS
     [..., '-f', 'True', 'input file']
@@ -639,7 +629,6 @@ class Dumpling:
         '''
         return [self.params[i] for i in args]
 
-    @contextmanager
     def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE):
         '''Run the command.
 
@@ -647,28 +636,21 @@ class Dumpling:
         ----------
         cwd : str
             working dir
-        stdin : str
-            file to provide stdin
-        stdout, stderr : str or `subprocess.DEVNULL`
-            file to store output. Use `subprocess.DEVNULL` to suppress stdout
-            or stderr.
+        stdin, stdout, stderr : str, `subprocess.DEVNULL`, and `subprocess.PIPE` (default)
+            file path to store output. Use `subprocess.DEVNULL` to suppress stdout or stderr.
 
-        Yield
-        -----
-        tuple: int, file object (or `subprocess.DEVNULL`), file object (or `subprocess.DEVNULL`)
+        Returns
+        -------
+        `Popen` object
         '''
         proc = Popen(self.command, cwd=cwd, shell=False,
                      stdin=open(stdin, 'r') if isinstance(stdin, str) else stdin,
                      stdout=open(stdout, 'w+') if isinstance(stdout, str) else stdout,
-                     stderr=open(stderr, 'w+') if isinstance(stderr, str) else stderr)
-        out, err = proc.communicate()
+                     stderr=open(stderr, 'w+') if isinstance(stderr, str) else stderr,
+                     universal_newlines=True)
+        proc.wait()
 
-        yield proc.returncode, out, err
-
-        if out is not None:
-            out.close()
-        if err is not None:
-            err.close()
+        return proc
 
 
 def check_exit_status(code, out, err):
@@ -676,9 +658,7 @@ def check_exit_status(code, out, err):
         msg = ['finished with an error:\n'
                'exit code: {0}\n'.format(code)]
         if out is not None:
-            o = out.read()
-            msg.append('stdout: \n{1}\n'.format(o))
+            msg.append('stdout: \n{1}\n'.format(out))
         if err is not None:
-            e = err.read()
-            msg.append('stderr: \n{2}\n'.format(e))
+            msg.append('stderr: \n{2}\n'.format(err))
         raise RuntimeError(''.join(msg))
