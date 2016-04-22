@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 from collections import OrderedDict
 from collections.abc import Mapping
 from abc import ABC, abstractmethod
-from subprocess import Popen
+from subprocess import Popen, PIPE
 from copy import deepcopy
 
 
@@ -624,9 +624,23 @@ class Dumpling:
         '''
         self.params.update(**kwargs)
 
+    def grab(self, *args):
+        '''Grab the values for the specified parameters.
+
+        Parameters
+        ----------
+        args : tuple
+            positional arguments of parameter names/flags.
+
+        Returns
+        -------
+        list
+            all the values of the specified parameters.
+        '''
+        return [self.params[i] for i in args]
+
     @contextmanager
-    def __call__(self, cwd=None, stdin=None, stdout=None, stderr=None,
-                 **kwargs):
+    def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE):
         '''Run the command.
 
         Parameters
@@ -636,48 +650,35 @@ class Dumpling:
         stdin : str
             file to provide stdin
         stdout, stderr : str or `subprocess.DEVNULL`
-            file to store output.
-        kwargs : keyword argument
-            it will be passed to the method `update` to update the app parameters.
+            file to store output. Use `subprocess.DEVNULL` to suppress stdout
+            or stderr.
 
         Yield
         -----
         tuple: int, file object (or `subprocess.DEVNULL`), file object (or `subprocess.DEVNULL`)
-
-        Notes
-        -----
-        All the files opened will be closed and the application parameters
-        settings in this function thru `kwargs` will be undo when this function
-        call is finished.
         '''
-        p = deepcopy(self.params)
-        self.params.update(**kwargs)
-        if stdout is None:
-            stdout = NamedTemporaryFile('w+')
-        elif isinstance(stdout, str):
-            stdout = open(stdout, 'w+')
-        if stderr is None:
-            stderr = NamedTemporaryFile('w+')
-        elif isinstance(stderr, str):
-            stderr = open(stderr, 'w+')
-        if isinstance(stdin, str):
-            stdin = open(stdin, 'r')
-
         proc = Popen(self.command, cwd=cwd, shell=False,
-                     stdin=stdin, stdout=stdout, stderr=stderr)
-        proc.wait()
-        for f in [stdout, stderr]:
-            try:
-                f.seek(0)
-            except AttributeError:
-                pass
+                     stdin=open(stdin, 'r') if isinstance(stdin, str) else stdin,
+                     stdout=open(stdout, 'w+') if isinstance(stdout, str) else stdout,
+                     stderr=open(stderr, 'w+') if isinstance(stderr, str) else stderr)
+        out, err = proc.communicate()
 
-        yield proc.returncode, stdout, stderr
+        yield proc.returncode, out, err
 
-        # reset parameters
-        self.params = p
-        for f in [stdout, stderr, stdin]:
-            try:
-                f.close()
-            except AttributeError:
-                pass
+        if out is not None:
+            out.close()
+        if err is not None:
+            err.close()
+
+
+def check_exit_status(code, out, err):
+    if code != 0:
+        msg = ['finished with an error:\n'
+               'exit code: {0}\n'.format(code)]
+        if out is not None:
+            o = out.read()
+            msg.append('stdout: \n{1}\n'.format(o))
+        if err is not None:
+            e = err.read()
+            msg.append('stderr: \n{2}\n'.format(e))
+        raise RuntimeError(''.join(msg))
