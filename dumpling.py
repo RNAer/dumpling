@@ -2,7 +2,7 @@ from keyword import iskeyword
 from collections import OrderedDict
 from collections.abc import Mapping
 from abc import ABC, abstractmethod
-from subprocess import Popen, PIPE
+from subprocess import run, PIPE, CalledProcessError
 from copy import deepcopy
 
 
@@ -544,9 +544,9 @@ class Dumpling:
     >>> proc =  app()
     >>> proc.returncode
     0
-    >>> print(proc.stderr.read())
+    >>> print(proc.stderr)
     <BLANKLINE>
-    >>> print(proc.stdout.read())
+    >>> print(proc.stdout)
     True
     'input file'
     <BLANKLINE>
@@ -614,21 +614,6 @@ class Dumpling:
         '''
         self.params.update(**kwargs)
 
-    def grab(self, *args):
-        '''Grab the values for the specified parameters.
-
-        Parameters
-        ----------
-        args : `Iterable`
-            positional arguments of parameter names/flags.
-
-        Returns
-        -------
-        list
-            all the values of the specified parameters.
-        '''
-        return [self.params[i] for i in args]
-
     def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE):
         '''Run the command.
 
@@ -636,31 +621,37 @@ class Dumpling:
         ----------
         cwd : str
             working dir
-        stdin, stdout, stderr : str, `subprocess.DEVNULL`, and `subprocess.PIPE` (default)
+        stdin, stdout, stderr : None, str, `subprocess.DEVNULL`, and `subprocess.PIPE` (default)
             file path to store output. Use `subprocess.DEVNULL` to suppress stdout or stderr.
 
         Returns
         -------
-        `Popen` object
+        `subprocess.CompletedProcess`
+
+        Notes
+        -----
+        The default value of `subprocess.PIPE` means the stdout and/or stderr
+        will be collected into memory. If you expect large volume of them,
+        supply file path to store the standard IO streams instead to avoid
+        memory blowup.
         '''
-        proc = Popen(self.command, cwd=cwd, shell=False,
-                     stdin=open(stdin, 'r') if isinstance(stdin, str) else stdin,
-                     stdout=open(stdout, 'w+') if isinstance(stdout, str) else stdout,
-                     stderr=open(stderr, 'w+') if isinstance(stderr, str) else stderr,
-                     universal_newlines=True)
-        proc.wait()
-
+        try:
+            if isinstance(stdin, str):
+                stdin = open(stdin, 'r')
+            if isinstance(stdout, str):
+                stdout = open(stdout, 'w+')
+            if isinstance(stderr, str):
+                stderr = open(stderr, 'w+')
+            proc = run(self.command, cwd=cwd, shell=False,
+                       stdin=stdin, stdout=stdout, stderr=stderr,
+                       universal_newlines=True, check=True)
+        except CalledProcessError as e:
+            print(e.stderr)
+            raise e
+        finally:
+            for f in [stdin, stdout, stderr]:
+                try:
+                    f.close()
+                except AttributeError:
+                    pass
         return proc
-
-
-def check_exit_status(proc):
-    if proc.returncode != 0:
-        msg = ['finished with an error:\n'
-               'exit code: {}\n'.format(proc.returncode)]
-        if proc.stdout is not None:
-            msg.append('stdout:\n{}\n'.format(proc.stdout.read()))
-            proc.stdout.close()
-        if proc.stderr is not None:
-            msg.append('stderr:\n{}\n'.format(proc.stderr.read()))
-            proc.stderr.close()
-        raise RuntimeError(''.join(msg))
