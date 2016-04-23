@@ -200,9 +200,9 @@ CMD: {}
 CMD version: '1.0.9'
 CMD URL: 'www.test.com'
 CMD Parameter:
-OptionParam(flag='--db', name='db', value='file path', action=<lambda>, help='', delimiter=' ')
-OptionParam(flag='-e', name='e', value=0.1, action=func, help='', delimiter=' ')
-OptionParam(flag='-1', name='r1', value=False, action=<lambda>, help='Left-end read', delimiter=' ')
+OptionParam(flag='--db', alter=None, name='db', value='file path', action=<lambda>, help='', delimiter=' ')
+OptionParam(flag='-e', alter=None, name='e', value=0.1, action=func, help='', delimiter=' ')
+OptionParam(flag='-1', alter=None, name='r1', value=False, action=<lambda>, help='Left-end read', delimiter=' ')
 ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format(self.cmd)
         self.assertEqual(repr(self.tester), exp)
 

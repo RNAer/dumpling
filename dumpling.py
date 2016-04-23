@@ -221,7 +221,9 @@ class OptionParam(Param):
     Parameters
     ----------
     flag : str
-        The parameter flag, ie. the flag of the parmeter.
+        The parameter flag, i.e. the flag of the parmeter, e.g., "--force"
+    alter: str
+        The alternative parameter flag, e.g., "-f"
     name : str or `None` (default)
         If it is `None`, it will try to automatically infer name from the flag
         by removing the beginning "-" and replace "-" with "_".
@@ -241,6 +243,7 @@ class OptionParam(Param):
     Attributes
     ----------
     flag
+    alter
     name
     value
     action
@@ -250,26 +253,27 @@ class OptionParam(Param):
     Examples
     --------
     >>> from dumpling import OptionParam
-    >>> p = OptionParam('-i', value='input.txt', help='input file path')
+    >>> p = OptionParam('-i', '--input', value='input.txt', help='input file path')
     >>> p
-    OptionParam(flag='-i', name='i', value='input.txt', action=<lambda>, help='input file path', delimiter=' ')
+    OptionParam(flag='-i', alter='--input', name='i', value='input.txt', action=<lambda>, help='input file path', delimiter=' ')
     >>> p.name
     'i'
     >>> str(p)
     '-i input.txt'
-    >>> p = OptionParam('-i', value='input.txt', help='input file path', delimiter='=')
+    >>> p = OptionParam('--input', '-i', value='input.txt', help='input file path', delimiter='=')
     >>> p.is_on()
     True
     >>> str(p)
-    '-i=input.txt'
+    '--input=input.txt'
     >>> p.off()
-    OptionParam(flag='-i', name='i', value=None, action=<lambda>, help='input file path', delimiter='=')
+    OptionParam(flag='--input', alter='-i', name='input', value=None, action=<lambda>, help='input file path', delimiter='=')
     >>> str(p)
     ''
     '''
-    def __init__(self, flag, name=None, value=None, action=lambda i: i,
+    def __init__(self, flag, alter=None, name=None, value=None, action=lambda i: i,
                  help='', delimiter=' '):
         self.flag = flag
+        self.alter = alter
         self.name = name
         self.action = action
         self.value = value
@@ -299,8 +303,8 @@ class OptionParam(Param):
     def __repr__(self):
         '''Return the string representation of the option parameter.'''
         # if isinstance(self.value, bool):
-        s = '{}(flag={!r}, name={!r}, value={!r}, action={}, help={!r}, delimiter={!r})'
-        return s.format(self.__class__.__name__, self.flag, self.name, self.value,
+        s = '{}(flag={!r}, alter={!r}, name={!r}, value={!r}, action={}, help={!r}, delimiter={!r})'
+        return s.format(self.__class__.__name__, self.flag, self.alter, self.name, self.value,
                         self.action.__name__, self.help, self.delimiter)
 
     def __str__(self):
@@ -343,40 +347,38 @@ class Parameters(Mapping):
     Examples
     --------
     >>> from dumpling import ArgmntParam, OptionParam, Parameters
-    >>> params = [OptionParam('-f', help='force overwriting'),
+    >>> params = [OptionParam('--force', '-f', help='force overwriting'),
     ...           ArgmntParam('input', help='input cm file')]
     >>> p = Parameters(*params)
     >>> p
-    OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    OptionParam(flag='--force', alter='-f', name='force', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
     >>> list(p.keys())
-    ['f', 'input']
-    >>> '-f' in p
+    ['force', 'input']
+    >>> '--force' in p
     True
-    >>> 'f' in p
-    True
-    >>> p['-f']
-    OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
-    >>> p['f'] == p['-f']
+    >>> p['--force']
+    OptionParam(flag='--force', alter='-f', name='force', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    >>> p['--force'] == p['-f'] == p['force']
     True
     >>> p['input']
     ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
     >>> p['input'] = 'riboswitch.cm'
     >>> p
-    OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    OptionParam(flag='--force', alter='-f', name='force', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value='riboswitch.cm', action=<lambda>, help='input cm file')
     >>> p.off()
     >>> p
-    OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    OptionParam(flag='--force', alter='-f', name='force', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
-    >>> p.update(f=True, input='SAM.cm')
+    >>> p.update(force=True, input='SAM.cm')
     >>> p
-    OptionParam(flag='-f', name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
+    OptionParam(flag='--force', alter='-f', name='force', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value='SAM.cm', action=<lambda>, help='input cm file')
     >>> for k in p:
     ...     print(p[k])
     ...
-    -f
+    --force
     SAM.cm
     '''
 
@@ -396,6 +398,7 @@ class Parameters(Mapping):
             p = self._data[k]
             if isinstance(p, OptionParam):
                 self._name_map[p.flag] = p.name
+                self._name_map[p.alter] = p.name
             elif not isinstance(p, Param):
                 self._data[k] = OptionParam(*p)
 
@@ -538,7 +541,7 @@ class Dumpling:
     CMD version: '1.0.0'
     CMD URL: 'www.test.com'
     CMD Parameter:
-    OptionParam(flag='-f', name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    OptionParam(flag='-f', alter=None, name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
     >>> app.update(f=True, input='input file')
     >>> proc =  app()
@@ -560,7 +563,7 @@ class Dumpling:
     CMD version: '1.0.0'
     CMD URL: 'www.test.com'
     CMD Parameter:
-    OptionParam(flag='-f', name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
+    OptionParam(flag='-f', alter=None, name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
     ArgmntParam(name='input', value='input file', action=<lambda>, help='input cm file')
     >>> rmtree(tmpd)
     '''
@@ -645,9 +648,7 @@ class Dumpling:
             proc = run(self.command, cwd=cwd, shell=False,
                        stdin=stdin, stdout=stdout, stderr=stderr,
                        universal_newlines=True, check=True)
-        except CalledProcessError as e:
-            print(e.stderr)
-            raise e
+
         finally:
             for f in [stdin, stdout, stderr]:
                 try:
