@@ -2,7 +2,7 @@ from keyword import iskeyword
 from collections import OrderedDict
 from collections.abc import Mapping
 from abc import ABC, abstractmethod
-from subprocess import run, PIPE, CalledProcessError
+from subprocess import run, PIPE
 from copy import deepcopy
 
 

@@ -2,7 +2,7 @@ from unittest import TestCase, main
 from tempfile import mkdtemp
 from collections import namedtuple
 from shutil import rmtree
-from os.path import join
+from os.path import join, realpath
 from subprocess import DEVNULL, CalledProcessError
 import os
 import stat
@@ -213,7 +213,7 @@ ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format
     def test_call_succeed(self):
         self.tester.update(e=3, r1='R1.fq', out='output.txt')
         p = self.tester()
-        out = 'file path\n3.0\nR1.fq\noutput.txt\n'
+        out = 'directory: {}\nfile path\n3.0\nR1.fq\noutput.txt\n'.format(os.getcwd())
         err = ''
         self.assertEqual(p.stdout, out)
         self.assertEqual(p.stderr, err)
@@ -226,21 +226,50 @@ ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format
         self.assertEqual(p.stderr, None)
         self.assertEqual(p.returncode, 0)
 
+    def test_call_cwd_stdout_stderr(self):
+        o = join(self.tmpd, 'stdout')
+        e = join(self.tmpd, 'stderr')
+        with self.assertRaises(CalledProcessError):
+            self.tester(stdout=o, stderr=e)
+
+        stdout = 'directory: {}\n'
+        stderr = '''usage: test.py [-h] --db DB -e E -1 R1 [OUT]
+test.py: error: the following arguments are required: -1
+'''
+        with open(o) as out:
+            self.assertEqual(out.read(), stdout.format(os.getcwd()))
+        with open(e) as err:
+            self.assertEqual(err.read(), stderr)
+
+        # test changing working dir and PIPE for stdout/stderr
+        try:
+            self.tester(cwd=self.tmpd)
+        except CalledProcessError as e:
+            # realpath is necessary because of /tmp/ is a symbolic link to /private/tmp
+            self.assertEqual(e.stdout, stdout.format(realpath(self.tmpd)))
+            self.assertEqual(e.stderr, stderr)
+
     def tearDown(self):
         rmtree(self.tmpd)
 
 
 script = r'''#!/usr/bin/env python
 import argparse
+from os import getcwd
 
-parser = argparse.ArgumentParser(description='Test CMD for dumpling.')
-parser.add_argument('--db', dest='db', type=str, default='default.db', required=True)
-parser.add_argument('-e', dest='e', type=float, default=1, required=True)
-parser.add_argument('-1', dest='r1', required=True)
-parser.add_argument('out', metavar='OUT', type=str, nargs='?')
-args = parser.parse_args()
+def interface():
+    parser = argparse.ArgumentParser(description='Test CMD for dumpling.')
+    parser.add_argument('--db', dest='db', type=str, default='default.db', required=True)
+    parser.add_argument('-e', dest='e', type=float, default=1, required=True)
+    parser.add_argument('-1', dest='r1', required=True)
+    parser.add_argument('out', metavar='OUT', type=str, nargs='?')
+    args = parser.parse_args()
+    return args
+
 
 if __name__ == '__main__':
+    print('directory: {}'.format(getcwd()))
+    args = interface()
     print('\n'.join([args.db, str(args.e), args.r1, args.out]))
 '''
 
