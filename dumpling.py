@@ -617,7 +617,7 @@ class Dumpling:
         '''
         self.params.update(**kwargs)
 
-    def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE):
+    def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE, check=True):
         '''Run the command.
 
         Parameters
@@ -647,7 +647,7 @@ class Dumpling:
                 stderr = open(stderr, 'w+')
             proc = run(self.command, cwd=cwd, shell=False,
                        stdin=stdin, stdout=stdout, stderr=stderr,
-                       universal_newlines=True, check=True)
+                       universal_newlines=True, check=check)
 
         finally:
             for f in [stdin, stdout, stderr]:
