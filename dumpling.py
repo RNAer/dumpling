@@ -22,6 +22,19 @@ def check_choice(it):
     function
         A function that receive the value, does the checking, and return the value
         if it is legal.
+
+    Examples
+    --------
+    >>> from dumpling import check_choice
+    >>> f = check_choice(('fna', 'fasta', 'faa'))
+    >>> f('fna')
+    'fna'
+    >>> f('abc')   # doctest: +ELLIPSIS
+    Traceback (most recent call last):
+    ...
+        raise ValueError(msg.format(v))
+    ValueError: Illegal value: abc
+
     '''
     def func(v):
         '''check value.
@@ -62,6 +75,18 @@ def check_range(minimum, maximum):
     function
         A function that receive the value and does the checking, and return the value
         if it is legal.
+
+    Examples
+    --------
+    >>> from dumpling import check_range
+    >>> f = check_range(0, 9)
+    >>> f('2')
+    '2'
+    >>> f('10')  # doctest: +ELLIPSIS
+    Traceback (most recent call last):
+    ...
+        raise ValueError(msg.format(v))
+    ValueError: Illegal value: 10
     '''
     def func(v):
         '''check value.
@@ -80,7 +105,8 @@ def check_range(minimum, maximum):
         ValueError
             If the given value of `v` is not inside the (mininum, maximum).
         '''
-        if not minimum < v < maximum:
+        v_ = float(v)
+        if not minimum <= v_ <= maximum:
             msg = 'Illegal value: {}'
             raise ValueError(msg.format(v))
         return v
@@ -321,6 +347,8 @@ class OptionParam(Param):
     def _get_arg(self):
         '''Return the parameter as list.'''
         if self.is_on():
+            if isinstance(self.value, bool):
+                return [self.flag]
             if self.delimiter.isspace():
                 return [self.flag, str(self.value)]
             else:
@@ -522,7 +550,7 @@ class Dumpling:
     >>> script = r"""#!/usr/bin/env python
     ... import argparse
     ... parser = argparse.ArgumentParser(description='Test CMD.')
-    ... parser.add_argument('-f', dest='f', type=bool, default=False)
+    ... parser.add_argument('-f', dest='f', action='store_true')
     ... parser.add_argument('input', metavar='INPUT', type=str, nargs='?')
     ... args = parser.parse_args()
     ... if __name__ == '__main__':
@@ -555,7 +583,7 @@ class Dumpling:
     <BLANKLINE>
     >>> app.update(f=True, input='input file')
     >>> app.command  # doctest: +ELLIPSIS
-    [..., '-f', 'True', 'input file']
+    [..., '-f', 'input file']
     >>> app  # doctest: +ELLIPSIS
     Dumpling
     --------
