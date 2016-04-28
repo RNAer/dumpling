@@ -498,8 +498,29 @@ class Parameters(Mapping):
         kwargs : dict
             keyword arguments. The key and value to update the parameters
             in this `Parameters` object.
+
+        Notes
+        -----
+        If multiple keys of the same parameter are given, the flag key will
+        be overwritten by the name key. See the examples.
+
+        Examples
+        --------
+        >>> from dumpling import OptionParam, Parameters
+        >>> p = Parameters(*[OptionParam('--threads', name='cpus'), OptionParam('-i')])
+        >>> p
+        OptionParam(flag='--threads', alter=None, name='cpus', value=None, action=<lambda>, help='', delimiter=' ')
+        OptionParam(flag='-i', alter=None, name='i', value=None, action=<lambda>, help='', delimiter=' ')
+        >>> p.update(cpus=2, **{'--threads': 1})
+        >>> p   # '--threads' is overridden by 'cpus'
+        OptionParam(flag='--threads', alter=None, name='cpus', value=2, action=<lambda>, help='', delimiter=' ')
+        OptionParam(flag='-i', alter=None, name='i', value=None, action=<lambda>, help='', delimiter=' ')
+        >>> p.update(**{'cpus': 3, '--threads': 1})
+        >>> p
+        OptionParam(flag='--threads', alter=None, name='cpus', value=3, action=<lambda>, help='', delimiter=' ')
+        OptionParam(flag='-i', alter=None, name='i', value=None, action=<lambda>, help='', delimiter=' ')
         '''
-        for k in kwargs:
+        for k in sorted(kwargs):
             self[k] = kwargs[k]
 
     def off(self):

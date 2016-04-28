@@ -2,3 +2,6 @@
 
 [[https://travis-ci.org/RNAer/dumpling][https://travis-ci.org/RNAer/dumpling.svg?branch=master]]
 [[https://coveralls.io/github/RNAer/dumpling?branch=master][https://coveralls.io/repos/github/RNAer/dumpling/badge.svg?branch=master]]
+
+
+[[http://rnaer.github.io/dumpling/][Documentation]]
