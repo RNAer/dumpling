@@ -536,172 +536,178 @@ class Parameters(Mapping):
         return '\n'.join(items)
 
 
-class Dumpling:
-    '''Application controller.
-
-    Parameters
-    ----------
-    cmd : str or list of str
-        The command or a list of command and its nested subcommand(s), e.g. ['git', 'clone']
-    params : `Parameters`
-        The parameters of the app
-    version : str
-        The version of the app.
-    url : str
-        URL of the app.
-
-    Attributes
-    ----------
-    cmd
-    params
-    version
-    url
-    command
-
-    Examples
-    --------
-    >>> from dumpling import ArgmntParam, OptionParam, Parameters, Dumpling
-    >>> from tempfile import mkdtemp
-    >>> from shutil import rmtree
-    >>> import os
-    >>> import stat
-    >>> params = [OptionParam('-f', help='force overwriting'),
-    ...           ArgmntParam('input', help='input cm file')]
-    >>> p = Parameters(*params)
-    >>> script = r"""#!/usr/bin/env python
-    ... import argparse
-    ... parser = argparse.ArgumentParser(description='Test CMD.')
-    ... parser.add_argument('-f', dest='f', action='store_true')
-    ... parser.add_argument('input', metavar='INPUT', type=str, nargs='?')
-    ... args = parser.parse_args()
-    ... if __name__ == '__main__':
-    ...     print('{!r}\\n{!r}'.format(args.f, args.input))
-    ... """
-    >>> tmpd = mkdtemp()
-    >>> cmd = os.path.join(tmpd, 'test.py')
-    >>> with open(cmd, 'w') as o:  # doctest: +ELLIPSIS
-    ...    _ = o.write(script)
-    >>> os.chmod(cmd, stat.S_IXUSR | stat.S_IRUSR)
-    >>> app = Dumpling(cmd, p, '1.0.0', 'www.test.com')
-    >>> app  # doctest: +ELLIPSIS
-    Dumpling
-    --------
-    CMD: ...
-    CMD version: '1.0.0'
-    CMD URL: 'www.test.com'
-    CMD Parameter:
-    OptionParam(flag='-f', alter=None, name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
-    ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
-    >>> app.update(f=True, input='input file')
-    >>> proc =  app()
-    >>> proc.returncode
-    0
-    >>> print(proc.stderr)
-    <BLANKLINE>
-    >>> print(proc.stdout)
-    True
-    'input file'
-    <BLANKLINE>
-    >>> app.update(f=True, input='input file')
-    >>> app.command  # doctest: +ELLIPSIS
-    [..., '-f', 'input file']
-    >>> app  # doctest: +ELLIPSIS
-    Dumpling
-    --------
-    CMD: ...
-    CMD version: '1.0.0'
-    CMD URL: 'www.test.com'
-    CMD Parameter:
-    OptionParam(flag='-f', alter=None, name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
-    ArgmntParam(name='input', value='input file', action=<lambda>, help='input cm file')
-    >>> rmtree(tmpd)
-    '''
-    def __init__(self, cmd, params, version='', url=''):
-        if isinstance(cmd, str):
-            cmd = [cmd]
-        self.cmd = cmd
-        self.params = deepcopy(params)
-        self.version = version
-        self.url = url
-
-    @property
-    def command(self):
-        '''Command args list passed to `subprocess.Popen`.'''
-        command = []
-        command.extend(self.cmd)
-        for k in self.params:
-            p = self.params[k]
-            command.extend(p._get_arg())
-        return command
-
-    def __repr__(self):
-        '''Return string representation of this object.'''
-        items = []
-        name = self.__class__.__name__
-        items.append(name)
-        items.append('-' * len(name))
-        items.append('CMD: {}'.format(' '.join(self.cmd)))
-        items.append('CMD version: {!r}'.format(self.version))
-        items.append('CMD URL: {!r}'.format(self.url))
-        items.append('CMD Parameter:\n{!r}'.format(self.params))
-        return '\n'.join(items)
-
-    def __str__(self):
-        '''Return the command run.'''
-        return ' '.join(self.command)
-
-    def update(self, **kwargs):
-        '''Update the parameters in this app controller.
-
-        It just calls `Parameters.update` function.
+def dumpling_factory(name, cmd, params, version='', url=''):
+    class Dumpling:
+        '''Application controller.
 
         Parameters
         ----------
-        kwargs : keyword arguments
-            The key and value to update the parameters in this object.
+        cmd : str or list of str
+            The command or a list of command and its nested subcommand(s), e.g. ['git', 'clone']
+        params : `Parameters`
+            The parameters of the app
+        version : str
+            The version of the app.
+        url : str
+            URL of the app.
 
-        See Also
+        Attributes
+        ----------
+        cmd
+        params
+        version
+        url
+        command
+
+        Examples
         --------
-        Parameters.update
+        >>> from dumpling import ArgmntParam, OptionParam, Parameters, Dumpling
+        >>> from tempfile import mkdtemp
+        >>> from shutil import rmtree
+        >>> import os
+        >>> import stat
+        >>> params = [OptionParam('-f', help='force overwriting'),
+        ...           ArgmntParam('input', help='input cm file')]
+        >>> p = Parameters(*params)
+        >>> script = r"""#!/usr/bin/env python
+        ... import argparse
+        ... parser = argparse.ArgumentParser(description='Test CMD.')
+        ... parser.add_argument('-f', dest='f', action='store_true')
+        ... parser.add_argument('input', metavar='INPUT', type=str, nargs='?')
+        ... args = parser.parse_args()
+        ... if __name__ == '__main__':
+        ...     print('{!r}\\n{!r}'.format(args.f, args.input))
+        ... """
+        >>> tmpd = mkdtemp()
+        >>> cmd = os.path.join(tmpd, 'test.py')
+        >>> with open(cmd, 'w') as o:  # doctest: +ELLIPSIS
+        ...    _ = o.write(script)
+        >>> os.chmod(cmd, stat.S_IXUSR | stat.S_IRUSR)
+        >>> app = Dumpling(cmd, p, '1.0.0', 'www.test.com')
+        >>> app  # doctest: +ELLIPSIS
+        Dumpling
+        --------
+        CMD: ...
+        CMD version: '1.0.0'
+        CMD URL: 'www.test.com'
+        CMD Parameter:
+        OptionParam(flag='-f', alter=None, name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+        ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
+        >>> app.update(f=True, input='input file')
+        >>> proc =  app()
+        >>> proc.returncode
+        0
+        >>> print(proc.stderr)
+        <BLANKLINE>
+        >>> print(proc.stdout)
+        True
+        'input file'
+        <BLANKLINE>
+        >>> app.update(f=True, input='input file')
+        >>> app.command  # doctest: +ELLIPSIS
+        [..., '-f', 'input file']
+        >>> app  # doctest: +ELLIPSIS
+        Dumpling
+        --------
+        CMD: ...
+        CMD version: '1.0.0'
+        CMD URL: 'www.test.com'
+        CMD Parameter:
+        OptionParam(flag='-f', alter=None, name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
+        ArgmntParam(name='input', value='input file', action=<lambda>, help='input cm file')
+        >>> rmtree(tmpd)
         '''
-        self.params.update(**kwargs)
+        def __init__(self):
+            if isinstance(cmd, str):
+                cmd_ = [cmd]
+            else:
+                cmd_ = cmd
+            self.cmd = cmd_
+            self.params = deepcopy(params)
+            self.version = version
+            self.url = url
 
-    def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE, check=True):
-        '''Run the command.
+        @property
+        def command(self):
+            '''Command args list passed to `subprocess.Popen`.'''
+            command = []
+            command.extend(self.cmd)
+            for k in self.params:
+                p = self.params[k]
+                command.extend(p._get_arg())
+            return command
 
-        Parameters
-        ----------
-        cwd : str
-            working dir
-        stdin, stdout, stderr : None, str, `subprocess.DEVNULL`, and `subprocess.PIPE` (default)
-            file path to store output. Use `subprocess.DEVNULL` to suppress stdout or stderr.
+        def __repr__(self):
+            '''Return string representation of this object.'''
+            items = []
+            name = self.__class__.__name__
+            items.append(name)
+            items.append('-' * len(name))
+            items.append('CMD: {}'.format(' '.join(self.cmd)))
+            items.append('CMD version: {!r}'.format(self.version))
+            items.append('CMD URL: {!r}'.format(self.url))
+            items.append('CMD Parameter:\n{!r}'.format(self.params))
+            return '\n'.join(items)
 
-        Returns
-        -------
-        `subprocess.CompletedProcess`
+        def __str__(self):
+            '''Return the command run.'''
+            return ' '.join(self.command)
 
-        Notes
-        -----
-        The default value of `subprocess.PIPE` means the stdout and/or stderr
-        will be collected into memory. If you expect large volume of them,
-        supply file path to store the standard IO streams instead to avoid
-        memory blowup.
-        '''
-        try:
-            if isinstance(stdin, str):
-                stdin = open(stdin, 'r')
-            if isinstance(stdout, str):
-                stdout = open(stdout, 'w+')
-            if isinstance(stderr, str):
-                stderr = open(stderr, 'w+')
-            proc = run(self.command, cwd=cwd, shell=False,
-                       stdin=stdin, stdout=stdout, stderr=stderr,
-                       universal_newlines=True, check=check)
+        def update(self, **kwargs):
+            '''Update the parameters in this app controller.
 
-        finally:
-            for f in [stdin, stdout, stderr]:
-                try:
-                    f.close()
-                except AttributeError:
-                    pass
-        return proc
+            It just calls `Parameters.update` function.
+
+            Parameters
+            ----------
+            kwargs : keyword arguments
+                The key and value to update the parameters in this object.
+
+            See Also
+            --------
+            Parameters.update
+            '''
+            self.params.update(**kwargs)
+
+        def __call__(self, cwd=None, stdin=PIPE, stdout=PIPE, stderr=PIPE, check=True):
+            '''Run the command.
+
+            Parameters
+            ----------
+            cwd : str
+                working dir
+            stdin, stdout, stderr : None, str, `subprocess.DEVNULL`, and `subprocess.PIPE` (default)
+                file path to store output. Use `subprocess.DEVNULL` to suppress stdout or stderr.
+
+            Returns
+            -------
+            `subprocess.CompletedProcess`
+
+            Notes
+            -----
+            The default value of `subprocess.PIPE` means the stdout and/or stderr
+            will be collected into memory. If you expect large volume of them,
+            supply file path to store the standard IO streams instead to avoid
+            memory blowup.
+            '''
+            try:
+                if isinstance(stdin, str):
+                    stdin = open(stdin, 'r')
+                if isinstance(stdout, str):
+                    stdout = open(stdout, 'w+')
+                if isinstance(stderr, str):
+                    stderr = open(stderr, 'w+')
+                proc = run(self.command, cwd=cwd, shell=False,
+                           stdin=stdin, stdout=stdout, stderr=stderr,
+                           universal_newlines=True, check=check)
+
+            finally:
+                for f in [stdin, stdout, stderr]:
+                    try:
+                        f.close()
+                    except AttributeError:
+                        pass
+            return proc
+
+    Dumpling.__name__ = name
+    return Dumpling
