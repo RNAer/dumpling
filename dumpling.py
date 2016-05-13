@@ -6,7 +6,7 @@ from subprocess import run, PIPE
 from copy import deepcopy
 
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 
 def check_choice(it):
@@ -561,7 +561,7 @@ def dumpling_factory(name, cmd, params, version='', url=''):
 
         Examples
         --------
-        >>> from dumpling import ArgmntParam, OptionParam, Parameters, Dumpling
+        >>> from dumpling import ArgmntParam, OptionParam, Parameters, dumpling_factory
         >>> from tempfile import mkdtemp
         >>> from shutil import rmtree
         >>> import os
@@ -583,7 +583,8 @@ def dumpling_factory(name, cmd, params, version='', url=''):
         >>> with open(cmd, 'w') as o:  # doctest: +ELLIPSIS
         ...    _ = o.write(script)
         >>> os.chmod(cmd, stat.S_IXUSR | stat.S_IRUSR)
-        >>> app = Dumpling(cmd, p, '1.0.0', 'www.test.com')
+        >>> App = dumpling_factory(cmd, p, '1.0.0', 'www.test.com')
+        >>> app = App()   # create an instance
         >>> app  # doctest: +ELLIPSIS
         Dumpling
         --------

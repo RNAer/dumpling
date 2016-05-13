@@ -8,7 +8,7 @@ import os
 import stat
 
 from dumpling import (
-    ArgmntParam, OptionParam, Parameters, Dumpling,
+    ArgmntParam, OptionParam, Parameters, dumpling_factory,
     check_choice, check_range)
 
 
@@ -178,24 +178,26 @@ class ParametersTests(Tests):
 class DumplingTests(Tests):
     def setUp(self):
         super().setUp()
+        script_name = 'test.py'
         self.tmpd = mkdtemp()
-        self.cmd = join(self.tmpd, 'test.py')
+        self.cmd = join(self.tmpd, script_name)
         with open(self.cmd, 'w') as o:
             o.write(script)
         os.chmod(self.cmd, stat.S_IXUSR | stat.S_IRUSR)
         self.version = '1.0.9'
         self.url = 'www.test.com'
-        self.tester = Dumpling(self.cmd, self.params, self.version, self.url)
+        self.TestApp = dumpling_factory(script_name, self.cmd, self.params, self.version, self.url)
 
     def test_init(self):
-        self.assertEqual(self.tester.version, self.version)
-        self.assertEqual(self.tester.url, self.url)
-        self.assertEqual(self.tester.params, self.params)
-        self.assertEqual(self.tester.cmd, [self.cmd])
+        app = self.TestApp()
+        self.assertEqual(app.version, self.version)
+        self.assertEqual(app.url, self.url)
+        self.assertEqual(app.params, self.params)
+        self.assertEqual(app.cmd, [self.cmd])
 
     def test_repr(self):
-        exp = ('''Dumpling
---------
+        exp = ('''test.py
+-------
 CMD: {}
 CMD version: '1.0.9'
 CMD URL: 'www.test.com'
@@ -204,15 +206,17 @@ OptionParam(flag='--db', alter=None, name='db', value='file path', action=<lambd
 OptionParam(flag='-e', alter=None, name='e', value=0.1, action=func, help='', delimiter=' ')
 OptionParam(flag='-1', alter=None, name='r1', value=False, action=<lambda>, help='Left-end read', delimiter=' ')
 ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format(self.cmd)
-        self.assertEqual(repr(self.tester), exp)
+        self.assertEqual(repr(self.TestApp()), exp)
 
     def test_call_fail(self):
         with self.assertRaises(CalledProcessError):
-            self.tester()
+            app = self.TestApp()
+            app()
 
     def test_call_succeed(self):
-        self.tester.update(e=3, r1='R1.fq', out='output.txt')
-        p = self.tester()
+        app = self.TestApp()
+        app.update(e=3, r1='R1.fq', out='output.txt')
+        p = app()
         out = 'directory: {}\nfile path\n3.0\nR1.fq\noutput.txt\n'.format(os.getcwd())
         err = ''
         self.assertEqual(p.stdout, out)
@@ -220,8 +224,9 @@ ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format
         self.assertEqual(p.returncode, 0)
 
     def test_call_no_stdout_stderr(self):
-        self.tester.update(e=3, r1='R1.fq', out='output.txt')
-        p = self.tester(stdout=DEVNULL, stderr=DEVNULL)
+        app = self.TestApp()
+        app.update(e=3, r1='R1.fq', out='output.txt')
+        p = app(stdout=DEVNULL, stderr=DEVNULL)
         self.assertEqual(p.stdout, None)
         self.assertEqual(p.stderr, None)
         self.assertEqual(p.returncode, 0)
@@ -230,7 +235,8 @@ ArgmntParam(name='out', value='output.txt', action=<lambda>, help='')''').format
         o = join(self.tmpd, 'stdout')
         e = join(self.tmpd, 'stderr')
         with self.assertRaises(CalledProcessError):
-            self.tester(stdout=o, stderr=e)
+            app = self.TestApp()
+            app(stdout=o, stderr=e)
 
         stdout = 'directory: {}\n'
         stderr = '''usage: test.py [-h] --db DB -e E -1 R1 [OUT]
@@ -243,7 +249,7 @@ test.py: error: the following arguments are required: -1
 
         # test changing working dir and PIPE for stdout/stderr
         try:
-            self.tester(cwd=self.tmpd)
+            app(cwd=self.tmpd)
         except CalledProcessError as e:
             # realpath is necessary because of /tmp/ is a symbolic link to /private/tmp
             self.assertEqual(e.stdout, stdout.format(realpath(self.tmpd)))
