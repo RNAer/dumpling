@@ -295,6 +295,12 @@ class OptionParam(Param):
     OptionParam(flag='--input', alter='-i', name='input', value=None, action=<lambda>, help='input file path', delimiter='=')
     >>> str(p)
     ''
+    >>> # "-1" can not be automatically convert to a legal python identifier for the attribute `name`.
+    >>> p = OptionParam('-1', value='input.txt', help='input file path')  # doctest: +ELLIPSIS
+    Traceback (most recent call last):
+    ...
+        raise ValueError('Illegal alias name %s.' % s)
+    ValueError: Illegal alias name 1.
     '''
     def __init__(self, flag, alter=None, name=None, value=None, action=lambda i: i,
                  help='', delimiter=' '):
@@ -428,7 +434,7 @@ class Parameters(Mapping):
                 self._name_map[p.flag] = p.name
                 self._name_map[p.alter] = p.name
             elif not isinstance(p, Param):
-                self._data[k] = OptionParam(*p)
+                raise ValueError('{} is not an instance of `Param`.'.format(p))
 
     def __iter__(self):
         '''Iterate over parameter in this object.
@@ -537,6 +543,96 @@ class Parameters(Mapping):
 
 
 def dumpling_factory(name, cmd, params, version='', url=''):
+    '''dumpling factory.
+
+    Parameters
+    ----------
+    name : str
+        The name of the class returned
+    cmd : str or list of str
+        The command or a list of command and its nested subcommand(s), e.g. ['git', 'clone']
+    params : `Parameters`
+        The parameters of the app
+    version : str
+        The version of the app.
+    url : str
+        URL of the app.
+
+    Returns
+    -------
+    class
+        a class object
+
+    Examples
+    --------
+    >>> from dumpling import ArgmntParam, OptionParam, Parameters, dumpling_factory
+    >>> from tempfile import mkdtemp
+    >>> from shutil import rmtree
+    >>> import os
+    >>> import stat
+    >>> params = [OptionParam('-f', help='force overwriting'),
+    ...           ArgmntParam('input', help='input cm file')]
+    >>> p = Parameters(*params)
+    >>> script = r"""#!/usr/bin/env python
+    ... import argparse
+    ... parser = argparse.ArgumentParser(description='Test CMD.')
+    ... parser.add_argument('-f', dest='f', action='store_true')
+    ... parser.add_argument('input', metavar='INPUT', type=str, nargs='?')
+    ... args = parser.parse_args()
+    ... if __name__ == '__main__':
+    ...     print('{!r}\\n{!r}'.format(args.f, args.input))
+    ... """
+    >>> tmpd = mkdtemp()
+    >>> cmd = os.path.join(tmpd, 'test.py')
+    >>> with open(cmd, 'w') as o:  # doctest: +ELLIPSIS
+    ...    _ = o.write(script)
+    >>> os.chmod(cmd, stat.S_IXUSR | stat.S_IRUSR)
+    >>> App = dumpling_factory('test', cmd, p, '1.0.0', 'www.test.com')
+    >>> app = App()   # create an instance
+    >>> app  # doctest: +ELLIPSIS
+    test
+    ----
+    CMD: ...
+    CMD version: '1.0.0'
+    CMD URL: 'www.test.com'
+    CMD Parameter:
+    OptionParam(flag='-f', alter=None, name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
+    >>> app.update(f=True, input='input file')
+    >>> app  # doctest: +ELLIPSIS
+    test
+    ----
+    CMD: ...
+    CMD version: '1.0.0'
+    CMD URL: 'www.test.com'
+    CMD Parameter:
+    OptionParam(flag='-f', alter=None, name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
+    ArgmntParam(name='input', value='input file', action=<lambda>, help='input cm file')
+    >>> app.command  # doctest: +ELLIPSIS
+    [..., '-f', 'input file']
+    >>> proc =  app()
+    >>> proc.returncode
+    0
+    >>> print(proc.stderr)
+    <BLANKLINE>
+    >>> print(proc.stdout)
+    True
+    'input file'
+    <BLANKLINE>
+    >>> rmtree(tmpd)
+    >>> # subcommand example
+    >>> App = dumpling_factory('test', ['cmd', 'subcmd'], p, '1.0.0', 'www.test.com')
+    >>> app = App()
+    >>> app
+    test
+    ----
+    CMD: cmd subcmd
+    CMD version: '1.0.0'
+    CMD URL: 'www.test.com'
+    CMD Parameter:
+    OptionParam(flag='-f', alter=None, name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
+    ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
+    '''
     class Dumpling:
         '''Application controller.
 
@@ -558,65 +654,6 @@ def dumpling_factory(name, cmd, params, version='', url=''):
         version
         url
         command
-
-        Examples
-        --------
-        >>> from dumpling import ArgmntParam, OptionParam, Parameters, dumpling_factory
-        >>> from tempfile import mkdtemp
-        >>> from shutil import rmtree
-        >>> import os
-        >>> import stat
-        >>> params = [OptionParam('-f', help='force overwriting'),
-        ...           ArgmntParam('input', help='input cm file')]
-        >>> p = Parameters(*params)
-        >>> script = r"""#!/usr/bin/env python
-        ... import argparse
-        ... parser = argparse.ArgumentParser(description='Test CMD.')
-        ... parser.add_argument('-f', dest='f', action='store_true')
-        ... parser.add_argument('input', metavar='INPUT', type=str, nargs='?')
-        ... args = parser.parse_args()
-        ... if __name__ == '__main__':
-        ...     print('{!r}\\n{!r}'.format(args.f, args.input))
-        ... """
-        >>> tmpd = mkdtemp()
-        >>> cmd = os.path.join(tmpd, 'test.py')
-        >>> with open(cmd, 'w') as o:  # doctest: +ELLIPSIS
-        ...    _ = o.write(script)
-        >>> os.chmod(cmd, stat.S_IXUSR | stat.S_IRUSR)
-        >>> App = dumpling_factory(cmd, p, '1.0.0', 'www.test.com')
-        >>> app = App()   # create an instance
-        >>> app  # doctest: +ELLIPSIS
-        Dumpling
-        --------
-        CMD: ...
-        CMD version: '1.0.0'
-        CMD URL: 'www.test.com'
-        CMD Parameter:
-        OptionParam(flag='-f', alter=None, name='f', value=None, action=<lambda>, help='force overwriting', delimiter=' ')
-        ArgmntParam(name='input', value=None, action=<lambda>, help='input cm file')
-        >>> app.update(f=True, input='input file')
-        >>> proc =  app()
-        >>> proc.returncode
-        0
-        >>> print(proc.stderr)
-        <BLANKLINE>
-        >>> print(proc.stdout)
-        True
-        'input file'
-        <BLANKLINE>
-        >>> app.update(f=True, input='input file')
-        >>> app.command  # doctest: +ELLIPSIS
-        [..., '-f', 'input file']
-        >>> app  # doctest: +ELLIPSIS
-        Dumpling
-        --------
-        CMD: ...
-        CMD version: '1.0.0'
-        CMD URL: 'www.test.com'
-        CMD Parameter:
-        OptionParam(flag='-f', alter=None, name='f', value=True, action=<lambda>, help='force overwriting', delimiter=' ')
-        ArgmntParam(name='input', value='input file', action=<lambda>, help='input cm file')
-        >>> rmtree(tmpd)
         '''
         def __init__(self):
             if isinstance(cmd, str):
