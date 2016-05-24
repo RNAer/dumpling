@@ -1,0 +1,7 @@
+dumpling
+========
+
+.. automodule:: dumpling
+   :members:
+   :show-inheritance:
+   :special-members:
