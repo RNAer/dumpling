@@ -21,6 +21,13 @@ class CheckTests(TestCase):
         with self.assertRaises(ValueError):
             checker(val)
 
+    def test_check_choice_iter(self):
+        checker = check_choice((i for i in 'a'))
+        val = 'a'
+        self.assertEqual(val, checker(val))
+        val = 'a'
+        self.assertEqual(val, checker(val))
+
     def test_check_range(self):
         checker = check_range(0, 9)
         val = 3

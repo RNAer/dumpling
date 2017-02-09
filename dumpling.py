@@ -1,3 +1,11 @@
+'''
+Dumpling
+========
+
+
+'''
+
+
 from keyword import iskeyword
 from collections import OrderedDict
 from collections.abc import Mapping
@@ -10,7 +18,7 @@ __version__ = '0.1.3'
 
 
 def check_choice(it):
-    '''return a function to check the value is a choice of a list of legal values.
+    '''return a function to check the value is among a list of legal values.
 
     Parameters
     ----------
@@ -20,7 +28,7 @@ def check_choice(it):
     Returns
     -------
     function
-        A function that receive the value, does the checking, and return the value
+        A function that receives a value, does the checking, and returns the value
         if it is legal.
 
     Examples
@@ -36,6 +44,9 @@ def check_choice(it):
     ValueError: Illegal value: abc
 
     '''
+    # make it to set to avoid the exhaust of the iterator
+    it = set(it)
+
     def func(v):
         '''check value.
 
@@ -51,7 +62,8 @@ def check_choice(it):
         Raises
         ------
         ValueError
-            If the given value of `v` is not a choice from the list of legal values.
+            If the given value of `v` is not a choice from the list of
+            legal values.
         '''
         if v not in it:
             msg = 'Illegal value: {}'
@@ -73,8 +85,8 @@ def check_range(minimum, maximum):
     Returns
     -------
     function
-        A function that receive the value and does the checking, and return the value
-        if it is legal.
+        A function that receives a numeric value and does the
+        checking, and returns the value if it is legal.
 
     Examples
     --------
@@ -87,6 +99,7 @@ def check_range(minimum, maximum):
     ...
         raise ValueError(msg.format(v))
     ValueError: Illegal value: 10
+
     '''
     def func(v):
         '''check value.
@@ -116,6 +129,18 @@ def check_range(minimum, maximum):
 class Param(ABC):
     '''Abstract base class for command line parameters.
 
+    Parameters
+    ----------
+    name : str
+        name of the parameter
+    value : arbitrary, optional
+        value for the parameter
+    action : callable, optional
+        The callable to operate of the value to do validation, formatting,
+        etc. The default callable is to return the value itself without doing
+        anything. See `check_choice` and `check_range`.
+    help : str
+        explanatory text for the parameter
     '''
     def __init__(self, name, value=None, action=lambda i: i, help=''):
         self.name = name
@@ -180,15 +205,15 @@ class ArgmntParam(Param):
     ----------
     name : str
         The parameter name.
-    value : arbitrary
+    value : arbitrary, optional
         The value for the parameter (default is `None`). If the value is a
         string of file or directory path, users don't need to add extra quotes
         because it passes to `subprocess.Popen`.
-    action : callable
+    action : callable, optional
         The callable to operate on the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
         anything. See `check_choice` and `check_range`.
-    help : str
+    help : str, optional
         The help or description message for the parameter.
 
     Attributes
@@ -545,6 +570,8 @@ class Parameters(Mapping):
 def dumpling_factory(name, cmd, params, version='', url=''):
     '''dumpling factory.
 
+    It creates a Python class for wrapping a command line tool.
+
     Parameters
     ----------
     name : str
@@ -714,7 +741,7 @@ def dumpling_factory(name, cmd, params, version='', url=''):
             ----------
             cwd : str
                 working dir
-            stdin, stdout, stderr : None, str, `subprocess.DEVNULL`, and `subprocess.PIPE` (default)
+            stdin, stdout, stderr : None, str, `subprocess.DEVNULL`, or `subprocess.PIPE` (default)
                 file path to store output. Use `subprocess.DEVNULL` to suppress stdout or stderr.
 
             Returns
