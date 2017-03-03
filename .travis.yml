@@ -5,6 +5,9 @@ python:
 os:
   - linux
 #  - osx
+env:
+  global:
+    secure: T4I82mQ6a7U+zR7YjboQT+pjuvBpeFrYY8W+cey3QXFYJvngPtLR7MOuYTEGXeTR1yVRsDxQMhcuTm42TTwKaVQogk3BJzFufdvR3CWcl03TYV87nDyWuZIDi9HbkZcjzOz35MbkC3hftmkty2qupcIPzwhlYDvQSSnS2LWLxSUv4I/5n1/HaEoQ7sPD6/8rvTccoC7BwoiCaDe+/2Kv1U2hvYLKDFqUX9D53BJvhpUaueS3bdMvc4UUlFpEbGrLreG9nSfmlwOIHmnk6hrpQoI6t4eVxlpBS/ErT5uA23f5LVb+9pdqPDFHuno1Q24BHFR4ouSzAo8NIqNpLXhWiio8c19/m4dUDTCS9xvL2Vldcbd2H9gB3jGG6h0gvlsvf0p6K+Fa4j/7w54t2MpQld0pVDJvM9PSWhTXGpQ6pc80JlKs94RP7lMHbud8EjvvvMttXHZPxOQ/7yy0cnK4fpNxiGDIs/xTQwrDs78f/IC/Km4iDArbk6JpIJ2gOFYbCWURhQh9xQCZoPm7JYLfAvL6cp+LWjyvd5vWKgEDHsoHhkg2U65U8vZoPJoVXrgBP10XHBZIPnuDG16COJFBBcUhWPO6nu2eTZh1pZT4m1/lpBcp3aAYIP9h8LpsIjzyxvoA2TDU0hDi4mScUltFodQjoXv6FCUgpyiiQWivz+E=
 install:
   - pip install pep8 flake8 coverage coveralls nose sphinx
   - pip install .
@@ -12,6 +15,7 @@ script:
   - WITH_COVERAGE=TRUE make all
 after_success:
   - coveralls
+  - CMSG="${TRAVIS_COMMIT_MESSAGE}" make doc_upload
 notifications:
   webhooks:
     on_success: change
