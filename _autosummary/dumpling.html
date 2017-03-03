@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dumpling &mdash; dumpling 0.1.2 documentation</title>
+    <title>dumpling &#8212; dumpling 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,21 +17,26 @@
         VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dumpling 0.1.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Welcome to dumpling’s documentation!" href="../index.html" />
    
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,6 +45,8 @@
             
   <div class="section" id="module-dumpling">
 <span id="dumpling"></span><h1>dumpling<a class="headerlink" href="#module-dumpling" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Dumpling<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dumpling.ArgmntParam">
 <em class="property">class </em><code class="descclassname">dumpling.</code><code class="descname">ArgmntParam</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>action=&lt;function Param.&lt;lambda&gt;&gt;</em>, <em>help=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#ArgmntParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.ArgmntParam" title="Permalink to this definition">¶</a></dt>
@@ -50,14 +57,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>str</em>) &#8211; The parameter name.</li>
-<li><strong>value</strong> (<em>arbitrary</em>) &#8211; The value for the parameter (default is <cite>None</cite>). If the value is a
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The parameter name.</li>
+<li><strong>value</strong> (<em>arbitrary</em><em>, </em><em>optional</em>) &#8211; The value for the parameter (default is <cite>None</cite>). If the value is a
 string of file or directory path, users don&#8217;t need to add extra quotes
 because it passes to <cite>subprocess.Popen</cite>.</li>
-<li><strong>action</strong> (<em>callable</em>) &#8211; The callable to operate on the value to do validation, formatting,
+<li><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a><em>, </em><em>optional</em>) &#8211; The callable to operate on the value to do validation, formatting,
 etc. The default callable is to return the value itself without doing
 anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
-<li><strong>help</strong> (<em>str</em>) &#8211; The help or description message for the parameter.</li>
+<li><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; The help or description message for the parameter.</li>
 </ul>
 </td>
 </tr>
@@ -65,28 +72,28 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <li><a class="reference internal" href="#dumpling.OptionParam.name" title="dumpling.OptionParam.name"><strong>name</strong></a> &#8211; </li>
 <li><strong>action</strong> &#8211; </li>
 <li><a class="reference internal" href="#dumpling.Param.value" title="dumpling.Param.value"><strong>value</strong></a> &#8211; </li>
-<li><strong>help</strong> &#8211; </li>
+<li><a class="reference external" href="https://docs.python.org/3/library/functions.html#help" title="(in Python v3.6)"><strong>help</strong></a> &#8211; </li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">end_with_dmnd</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.dmnd&#39;</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.dmnd&#39;</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">return</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
 <span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
-<span class="gp">... </span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Wrong input&#39;</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Wrong input&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">ArgmntParam</span><span class="p">(</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;DNase.dmnd&#39;</span><span class="p">,</span> <span class="n">end_with_dmnd</span><span class="p">,</span> <span class="s">&#39;input Diamond db file&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">ArgmntParam</span><span class="p">(</span><span class="s1">&#39;db&#39;</span><span class="p">,</span> <span class="s1">&#39;DNase.dmnd&#39;</span><span class="p">,</span> <span class="n">end_with_dmnd</span><span class="p">,</span> <span class="s1">&#39;input Diamond db file&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">value</span>
 <span class="go">&#39;DNase&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
 <span class="go">ArgmntParam(name=&#39;db&#39;, value=None, action=end_with_dmnd, help=&#39;input Diamond db file&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="go">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">ArgmntParam</span><span class="p">(</span><span class="s">&#39;db&#39;</span><span class="p">,</span> <span class="s">&#39;DNase&#39;</span><span class="p">,</span> <span class="n">end_with_dmnd</span><span class="p">,</span> <span class="s">&#39;input Diamond db file&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">ArgmntParam</span><span class="p">(</span><span class="s1">&#39;db&#39;</span><span class="p">,</span> <span class="s1">&#39;DNase&#39;</span><span class="p">,</span> <span class="n">end_with_dmnd</span><span class="p">,</span> <span class="s1">&#39;input Diamond db file&#39;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
  <span class="c">...</span>
 <span class="gr">ValueError</span>: <span class="n">Wrong input</span>
@@ -116,18 +123,18 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>flag</strong> (<em>str</em>) &#8211; The parameter flag, i.e. the flag of the parmeter, e.g., &#8220;&#8211;force&#8221;</li>
-<li><strong>alter</strong> (<em>str</em>) &#8211; The alternative parameter flag, e.g., &#8220;-f&#8221;</li>
+<li><strong>flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The parameter flag, i.e. the flag of the parmeter, e.g., &#8220;&#8211;force&#8221;</li>
+<li><strong>alter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The alternative parameter flag, e.g., &#8220;-f&#8221;</li>
 <li><strong>name</strong> (str or <cite>None</cite> (default)) &#8211; If it is <cite>None</cite>, it will try to automatically infer name from the flag
 by removing the beginning &#8220;-&#8221; and replace &#8220;-&#8221; with &#8220;_&#8221;.</li>
 <li><strong>value</strong> (<em>arbitrary</em>) &#8211; The value for the parameter (default is <cite>None</cite>). If the value is a
 string of file or directory path, users don&#8217;t need to add extra quotes
 because it passes to <cite>subprocess.Popen</cite>.</li>
-<li><strong>aciton</strong> (<em>callable</em>) &#8211; The callable to operate of the value to do validation, formatting,
+<li><strong>aciton</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a>) &#8211; The callable to operate of the value to do validation, formatting,
 etc. The default callable is to return the value itself without doing
 anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
-<li><strong>help</strong> (<em>str</em>) &#8211; The help or description message for the parameter.</li>
-<li><strong>delimiter</strong> (<em>str</em>) &#8211; The delimiter to combine the flag and the value of the parameter.</li>
+<li><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The help or description message for the parameter.</li>
+<li><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The delimiter to combine the flag and the value of the parameter.</li>
 </ul>
 </td>
 </tr>
@@ -137,7 +144,7 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <li><a class="reference internal" href="#dumpling.OptionParam.name" title="dumpling.OptionParam.name"><strong>name</strong></a> &#8211; </li>
 <li><a class="reference internal" href="#dumpling.Param.value" title="dumpling.Param.value"><strong>value</strong></a> &#8211; </li>
 <li><strong>action</strong> &#8211; </li>
-<li><strong>help</strong> &#8211; </li>
+<li><a class="reference external" href="https://docs.python.org/3/library/functions.html#help" title="(in Python v3.6)"><strong>help</strong></a> &#8211; </li>
 <li><strong>delimiter</strong> &#8211; </li>
 </ul>
 </td>
@@ -145,15 +152,15 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">OptionParam</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;-i&#39;</span><span class="p">,</span> <span class="s">&#39;--input&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">&#39;input.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;input file path&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">OptionParam</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;input.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input file path&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;-i&#39;, alter=&#39;--input&#39;, name=&#39;i&#39;, value=&#39;input.txt&#39;, action=&lt;lambda&gt;, help=&#39;input file path&#39;, delimiter=&#39; &#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">name</span>
 <span class="go">&#39;i&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="go">&#39;-i input.txt&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;--input&#39;</span><span class="p">,</span> <span class="s">&#39;-i&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">&#39;input.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;input file path&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;=&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;input.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input file path&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">is_on</span><span class="p">()</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
@@ -162,11 +169,11 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <span class="go">OptionParam(flag=&#39;--input&#39;, alter=&#39;-i&#39;, name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input file path&#39;, delimiter=&#39;=&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 <span class="go">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c"># &quot;-1&quot; can not be automatically convert to a legal python identifier for the attribute `name`.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;-1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">&#39;input.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;input file path&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># &quot;-1&quot; can not be automatically convert to a legal python identifier for the attribute `name`.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;-1&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s1">&#39;input.txt&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input file path&#39;</span><span class="p">)</span>  
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Illegal alias name %s.&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Illegal alias name </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span>
 <span class="gr">ValueError</span>: <span class="n">Illegal alias name 1.</span>
 </pre></div>
 </div>
@@ -193,8 +200,24 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <dl class="class">
 <dt id="dumpling.Param">
 <em class="property">class </em><code class="descclassname">dumpling.</code><code class="descname">Param</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>action=&lt;function Param.&lt;lambda&gt;&gt;</em>, <em>help=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#Param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.Param" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">abc.ABC</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">abc.ABC</span></code></a></p>
 <p>Abstract base class for command line parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; name of the parameter</li>
+<li><strong>value</strong> (<em>arbitrary</em><em>, </em><em>optional</em>) &#8211; value for the parameter</li>
+<li><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a><em>, </em><em>optional</em>) &#8211; The callable to operate of the value to do validation, formatting,
+etc. The default callable is to return the value itself without doing
+anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
+<li><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; explanatory text for the parameter</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="dumpling.Param.__eq__">
 <code class="descname">__eq__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#Param.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.Param.__eq__" title="Permalink to this definition">¶</a></dt>
@@ -250,7 +273,7 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <dl class="class">
 <dt id="dumpling.Parameters">
 <em class="property">class </em><code class="descclassname">dumpling.</code><code class="descname">Parameters</code><span class="sig-paren">(</span><em>*params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#Parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.Parameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">collections.abc.Mapping</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">collections.abc.Mapping</span></code></a></p>
 <p>Store the parameters of a command line executable as a <cite>OrderedDict</cite>.</p>
 <p>The parameters are stored as <cite>OrderedDict</cite> and this object has the same API
 with <cite>OrderedDict</cite>. Its value is an object of <cite>Param</cite>&#8216;s child class. Its
@@ -267,24 +290,24 @@ the parameters as in command line.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span><span class="p">,</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;--force&#39;</span><span class="p">,</span> <span class="s">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;force overwriting&#39;</span><span class="p">),</span>
-<span class="gp">... </span>          <span class="n">ArgmntParam</span><span class="p">(</span><span class="s">&#39;input&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;input cm file&#39;</span><span class="p">)]</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span><span class="p">,</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;--force&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;force overwriting&#39;</span><span class="p">),</span>
+<span class="gp">... </span>          <span class="n">ArgmntParam</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input cm file&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 <span class="go">[&#39;force&#39;, &#39;input&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;--force&#39;</span> <span class="ow">in</span> <span class="n">p</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;--force&#39;</span> <span class="ow">in</span> <span class="n">p</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s">&#39;--force&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;--force&#39;</span><span class="p">]</span>
 <span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s">&#39;--force&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s">&#39;-f&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s">&#39;force&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;--force&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;-f&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s">&#39;input&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span>
 <span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s">&#39;input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;riboswitch.cm&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;riboswitch.cm&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">ArgmntParam(name=&#39;input&#39;, value=&#39;riboswitch.cm&#39;, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
@@ -292,7 +315,7 @@ the parameters as in command line.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="s">&#39;SAM.cm&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;SAM.cm&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=True, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">ArgmntParam(name=&#39;input&#39;, value=&#39;SAM.cm&#39;, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
@@ -311,7 +334,7 @@ the parameters as in command line.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<em>str</em>) &#8211; The flag or name of a parameter</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The flag or name of a parameter</td>
 </tr>
 </tbody>
 </table>
@@ -325,7 +348,7 @@ the parameters as in command line.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<em>str</em>) &#8211; The name or flag of the parameter to be retrieved.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The name or flag of the parameter to be retrieved.</td>
 </tr>
 </tbody>
 </table>
@@ -380,12 +403,12 @@ the parameters as in command line.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>k</strong> (<em>str</em>) &#8211; The name or flag of a parameter.</li>
+<li><strong>k</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The name or flag of a parameter.</li>
 <li><strong>v</strong> (<em>arbitrary object</em>) &#8211; The new value of the parameter.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code> &#8211; If the key is not in this <cite>Parameters</cite> object.</p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.6)"><code class="xref py py-exc docutils literal"><span class="pre">ValueError</span></code></a> &#8211; If the key is not in this <cite>Parameters</cite> object.</p>
 </td>
 </tr>
 </tbody>
@@ -412,7 +435,7 @@ the parameters as in command line.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> (<em>dict</em>) &#8211; keyword arguments. The key and value to update the parameters
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) &#8211; keyword arguments. The key and value to update the parameters
 in this <cite>Parameters</cite> object.</td>
 </tr>
 </tbody>
@@ -421,16 +444,16 @@ in this <cite>Parameters</cite> object.</td>
 <p>If multiple keys of the same parameter are given, the flag key will
 be overwritten by the name key. See the examples.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;--threads&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;cpus&#39;</span><span class="p">),</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;-i&#39;</span><span class="p">)])</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;--threads&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cpus&#39;</span><span class="p">),</span> <span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">)])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;--threads&#39;, alter=None, name=&#39;cpus&#39;, value=None, action=&lt;lambda&gt;, help=&#39;&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">OptionParam(flag=&#39;-i&#39;, alter=None, name=&#39;i&#39;, value=None, action=&lt;lambda&gt;, help=&#39;&#39;, delimiter=&#39; &#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cpus</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s">&#39;--threads&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>   <span class="c"># &#39;--threads&#39; is overridden by &#39;cpus&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">cpus</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">&#39;--threads&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>   <span class="c1"># &#39;--threads&#39; is overridden by &#39;cpus&#39;</span>
 <span class="go">OptionParam(flag=&#39;--threads&#39;, alter=None, name=&#39;cpus&#39;, value=2, action=&lt;lambda&gt;, help=&#39;&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">OptionParam(flag=&#39;-i&#39;, alter=None, name=&#39;i&#39;, value=None, action=&lt;lambda&gt;, help=&#39;&#39;, delimiter=&#39; &#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s">&#39;cpus&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;--threads&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;cpus&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;--threads&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
 <span class="go">OptionParam(flag=&#39;--threads&#39;, alter=None, name=&#39;cpus&#39;, value=3, action=&lt;lambda&gt;, help=&#39;&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">OptionParam(flag=&#39;-i&#39;, alter=None, name=&#39;i&#39;, value=None, action=&lt;lambda&gt;, help=&#39;&#39;, delimiter=&#39; &#39;)</span>
@@ -443,14 +466,14 @@ be overwritten by the name key. See the examples.</p>
 <dl class="function">
 <dt id="dumpling.check_choice">
 <code class="descclassname">dumpling.</code><code class="descname">check_choice</code><span class="sig-paren">(</span><em>it</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#check_choice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.check_choice" title="Permalink to this definition">¶</a></dt>
-<dd><p>return a function to check the value is a choice of a list of legal values.</p>
+<dd><p>return a function to check the value is among a list of legal values.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>it</strong> (<cite>Iterable</cite>) &#8211; A set of all legal values.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A function that receive the value, does the checking, and return the value
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A function that receives a value, does the checking, and returns the value
 if it is legal.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">function</td>
@@ -458,11 +481,11 @@ if it is legal.</td>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">check_choice</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">check_choice</span><span class="p">((</span><span class="s">&#39;fna&#39;</span><span class="p">,</span> <span class="s">&#39;fasta&#39;</span><span class="p">,</span> <span class="s">&#39;faa&#39;</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s">&#39;fna&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">check_choice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">check_choice</span><span class="p">((</span><span class="s1">&#39;fna&#39;</span><span class="p">,</span> <span class="s1">&#39;fasta&#39;</span><span class="p">,</span> <span class="s1">&#39;faa&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s1">&#39;fna&#39;</span><span class="p">)</span>
 <span class="go">&#39;fna&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s">&#39;abc&#39;</span><span class="p">)</span>   
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>   
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
@@ -485,8 +508,8 @@ if it is legal.</td>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A function that receive the value and does the checking, and return the value
-if it is legal.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A function that receives a numeric value and does the
+checking, and returns the value if it is legal.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">function</p>
@@ -495,11 +518,11 @@ if it is legal.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">check_range</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">check_range</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">check_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
 <span class="go">&#39;2&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s">&#39;10&#39;</span><span class="p">)</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="s1">&#39;10&#39;</span><span class="p">)</span>  
 <span class="gt">Traceback (most recent call last):</span>
 <span class="c">...</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
@@ -512,16 +535,17 @@ if it is legal.</p>
 <dt id="dumpling.dumpling_factory">
 <code class="descclassname">dumpling.</code><code class="descname">dumpling_factory</code><span class="sig-paren">(</span><em>name</em>, <em>cmd</em>, <em>params</em>, <em>version=''</em>, <em>url=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#dumpling_factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.dumpling_factory" title="Permalink to this definition">¶</a></dt>
 <dd><p>dumpling factory.</p>
+<p>It creates a Python class for wrapping a command line tool.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<em>str</em>) &#8211; The name of the class returned</li>
-<li><strong>cmd</strong> (<em>str or list of str</em>) &#8211; The command or a list of command and its nested subcommand(s), e.g. [&#8216;git&#8217;, &#8216;clone&#8217;]</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The name of the class returned</li>
+<li><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>list of str</em>) &#8211; The command or a list of command and its nested subcommand(s), e.g. [&#8216;git&#8217;, &#8216;clone&#8217;]</li>
 <li><strong>params</strong> (<cite>Parameters</cite>) &#8211; The parameters of the app</li>
-<li><strong>version</strong> (<em>str</em>) &#8211; The version of the app.</li>
-<li><strong>url</strong> (<em>str</em>) &#8211; URL of the app.</li>
+<li><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The version of the app.</li>
+<li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; URL of the app.</li>
 </ul>
 </td>
 </tr>
@@ -534,30 +558,30 @@ if it is legal.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span><span class="p">,</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">dumpling_factory</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span><span class="p">,</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">dumpling_factory</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">tempfile</span> <span class="k">import</span> <span class="n">mkdtemp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shutil</span> <span class="k">import</span> <span class="n">rmtree</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">stat</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;force overwriting&#39;</span><span class="p">),</span>
-<span class="gp">... </span>          <span class="n">ArgmntParam</span><span class="p">(</span><span class="s">&#39;input&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;input cm file&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;force overwriting&#39;</span><span class="p">),</span>
+<span class="gp">... </span>          <span class="n">ArgmntParam</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input cm file&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">script</span> <span class="o">=</span> <span class="s">r&quot;&quot;&quot;#!/usr/bin/env python</span>
-<span class="gp">... </span><span class="s">import argparse</span>
-<span class="gp">... </span><span class="s">parser = argparse.ArgumentParser(description=&#39;Test CMD.&#39;)</span>
-<span class="gp">... </span><span class="s">parser.add_argument(&#39;-f&#39;, dest=&#39;f&#39;, action=&#39;store_true&#39;)</span>
-<span class="gp">... </span><span class="s">parser.add_argument(&#39;input&#39;, metavar=&#39;INPUT&#39;, type=str, nargs=&#39;?&#39;)</span>
-<span class="gp">... </span><span class="s">args = parser.parse_args()</span>
-<span class="gp">... </span><span class="s">if __name__ == &#39;__main__&#39;:</span>
-<span class="gp">... </span><span class="s">    print(&#39;{!r}\n{!r}&#39;.format(args.f, args.input))</span>
-<span class="gp">... </span><span class="s">&quot;&quot;&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">script</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;#!/usr/bin/env python</span>
+<span class="gp">... </span><span class="s2">import argparse</span>
+<span class="gp">... </span><span class="s2">parser = argparse.ArgumentParser(description=&#39;Test CMD.&#39;)</span>
+<span class="gp">... </span><span class="s2">parser.add_argument(&#39;-f&#39;, dest=&#39;f&#39;, action=&#39;store_true&#39;)</span>
+<span class="gp">... </span><span class="s2">parser.add_argument(&#39;input&#39;, metavar=&#39;INPUT&#39;, type=str, nargs=&#39;?&#39;)</span>
+<span class="gp">... </span><span class="s2">args = parser.parse_args()</span>
+<span class="gp">... </span><span class="s2">if __name__ == &#39;__main__&#39;:</span>
+<span class="gp">... </span><span class="s2">    print(&#39;</span><span class="si">{!r}</span><span class="s2">\n</span><span class="si">{!r}</span><span class="s2">&#39;.format(args.f, args.input))</span>
+<span class="gp">... </span><span class="s2">&quot;&quot;&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tmpd</span> <span class="o">=</span> <span class="n">mkdtemp</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpd</span><span class="p">,</span> <span class="s">&#39;test.py&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">o</span><span class="p">:</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpd</span><span class="p">,</span> <span class="s1">&#39;test.py&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">o</span><span class="p">:</span>  
 <span class="gp">... </span>   <span class="n">_</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IXUSR</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IRUSR</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">App</span> <span class="o">=</span> <span class="n">dumpling_factory</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s">&#39;1.0.0&#39;</span><span class="p">,</span> <span class="s">&#39;www.test.com&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">App</span><span class="p">()</span>   <span class="c"># create an instance</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">App</span> <span class="o">=</span> <span class="n">dumpling_factory</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;www.test.com&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">App</span><span class="p">()</span>   <span class="c1"># create an instance</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span>  
 <span class="go">test</span>
 <span class="go">----</span>
@@ -567,7 +591,7 @@ if it is legal.</p>
 <span class="go">CMD Parameter:</span>
 <span class="go">OptionParam(flag=&#39;-f&#39;, alter=None, name=&#39;f&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
 <span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="s">&#39;input file&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;input file&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span>  
 <span class="go">test</span>
 <span class="go">----</span>
@@ -589,8 +613,8 @@ if it is legal.</p>
 <span class="go">&#39;input file&#39;</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rmtree</span><span class="p">(</span><span class="n">tmpd</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c"># subcommand example</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">App</span> <span class="o">=</span> <span class="n">dumpling_factory</span><span class="p">(</span><span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;cmd&#39;</span><span class="p">,</span> <span class="s">&#39;subcmd&#39;</span><span class="p">],</span> <span class="n">p</span><span class="p">,</span> <span class="s">&#39;1.0.0&#39;</span><span class="p">,</span> <span class="s">&#39;www.test.com&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># subcommand example</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">App</span> <span class="o">=</span> <span class="n">dumpling_factory</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cmd&#39;</span><span class="p">,</span> <span class="s1">&#39;subcmd&#39;</span><span class="p">],</span> <span class="n">p</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;www.test.com&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">App</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">app</span>
 <span class="go">test</span>
@@ -612,13 +636,22 @@ if it is legal.</p>
 </dd></dl>
 
 </div>
+</div>
 
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dumpling</a><ul>
+<li><a class="reference internal" href="#id1">Dumpling</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
@@ -629,15 +662,15 @@ if it is legal.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/_autosummary/dumpling.txt"
+      <li><a href="../_sources/_autosummary/dumpling.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -651,11 +684,11 @@ if it is legal.</p>
       &copy;Modified MIT.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/_autosummary/dumpling.txt"
+      <a href="../_sources/_autosummary/dumpling.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
