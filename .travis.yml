@@ -15,7 +15,7 @@ script:
   - WITH_COVERAGE=TRUE make all
 after_success:
   - coveralls
-  - CMSG="${TRAVIS_COMMIT_MESSAGE}" make doc_upload
+  - if [ ${TRAVIS_SECURE_ENV_VARS} = "true" ] ; then bash doc_upload.sh ${TRAVIS_COMMIT_MESSAGE} ; fi
 notifications:
   webhooks:
     on_success: change
