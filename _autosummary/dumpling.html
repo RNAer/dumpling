@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>dumpling &mdash; dumpling 0.1.2 documentation</title>
+    <title>dumpling &#8212; dumpling 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -17,17 +17,20 @@
         VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="dumpling 0.1.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Welcome to dumpling’s documentation!" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
@@ -55,13 +58,13 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The parameter name.</li>
-<li><strong>value</strong> (<em>arbitrary, optional</em>) &#8211; The value for the parameter (default is <cite>None</cite>). If the value is a
+<li><strong>value</strong> (<em>arbitrary</em><em>, </em><em>optional</em>) &#8211; The value for the parameter (default is <cite>None</cite>). If the value is a
 string of file or directory path, users don&#8217;t need to add extra quotes
 because it passes to <cite>subprocess.Popen</cite>.</li>
-<li><strong>action</strong> (<em>callable, optional</em>) &#8211; The callable to operate on the value to do validation, formatting,
+<li><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a><em>, </em><em>optional</em>) &#8211; The callable to operate on the value to do validation, formatting,
 etc. The default callable is to return the value itself without doing
 anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
-<li><strong>help</strong> (<em>str, optional</em>) &#8211; The help or description message for the parameter.</li>
+<li><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em>, </em><em>optional</em>) &#8211; The help or description message for the parameter.</li>
 </ul>
 </td>
 </tr>
@@ -205,8 +208,8 @@ anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; name of the parameter</li>
-<li><strong>value</strong> (<em>arbitrary, optional</em>) &#8211; value for the parameter</li>
-<li><strong>action</strong> (<em>callable, optional</em>) &#8211; The callable to operate of the value to do validation, formatting,
+<li><strong>value</strong> (<em>arbitrary</em><em>, </em><em>optional</em>) &#8211; value for the parameter</li>
+<li><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a><em>, </em><em>optional</em>) &#8211; The callable to operate of the value to do validation, formatting,
 etc. The default callable is to return the value itself without doing
 anything. See <cite>check_choice</cite> and <cite>check_range</cite>.</li>
 <li><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; explanatory text for the parameter</li>
@@ -539,7 +542,7 @@ checking, and returns the value if it is legal.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The name of the class returned</li>
-<li><strong>cmd</strong> (<em>str or list of str</em>) &#8211; The command or a list of command and its nested subcommand(s), e.g. [&#8216;git&#8217;, &#8216;clone&#8217;]</li>
+<li><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a><em> or </em><em>list of str</em>) &#8211; The command or a list of command and its nested subcommand(s), e.g. [&#8216;git&#8217;, &#8216;clone&#8217;]</li>
 <li><strong>params</strong> (<cite>Parameters</cite>) &#8211; The parameters of the app</li>
 <li><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The version of the app.</li>
 <li><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; URL of the app.</li>
@@ -563,7 +566,7 @@ checking, and returns the value if it is legal.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;force overwriting&#39;</span><span class="p">),</span>
 <span class="gp">... </span>          <span class="n">ArgmntParam</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input cm file&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">script</span> <span class="o">=</span> <span class="s2">r&quot;&quot;&quot;#!/usr/bin/env python</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">script</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;#!/usr/bin/env python</span>
 <span class="gp">... </span><span class="s2">import argparse</span>
 <span class="gp">... </span><span class="s2">parser = argparse.ArgumentParser(description=&#39;Test CMD.&#39;)</span>
 <span class="gp">... </span><span class="s2">parser.add_argument(&#39;-f&#39;, dest=&#39;f&#39;, action=&#39;store_true&#39;)</span>
@@ -659,15 +662,15 @@ checking, and returns the value if it is legal.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/_autosummary/dumpling.txt"
+      <li><a href="../_sources/_autosummary/dumpling.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -681,11 +684,11 @@ checking, and returns the value if it is legal.</p>
       &copy;Modified MIT.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="../_sources/_autosummary/dumpling.txt"
+      <a href="../_sources/_autosummary/dumpling.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
