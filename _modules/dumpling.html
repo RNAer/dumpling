@@ -204,6 +204,11 @@
 <span class="sd">        anything. See `check_choice` and `check_range`.</span>
 <span class="sd">    help : str</span>
 <span class="sd">        explanatory text for the parameter</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ArgmntParam</span>
+<span class="sd">    OptionParam</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
@@ -306,6 +311,11 @@
 <span class="sd">    Traceback (most recent call last):</span>
 <span class="sd">     ...</span>
 <span class="sd">    ValueError: Wrong input</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    OptionParam</span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
 <div class="viewcode-block" id="ArgmntParam.__str__"><a class="viewcode-back" href="../_autosummary/dumpling.ArgmntParam.__str__.html#dumpling.ArgmntParam.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the string of the parameter value.&#39;&#39;&#39;</span>
@@ -389,6 +399,11 @@
 <span class="sd">    ...</span>
 <span class="sd">        raise ValueError(&#39;Illegal alias name %s.&#39; % s)</span>
 <span class="sd">    ValueError: Illegal alias name 1.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    ArgmntParam</span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">alter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
                  <span class="n">help</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">):</span>
