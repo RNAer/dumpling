@@ -162,6 +162,11 @@ class Param(ABC):
         anything. See `check_choice` and `check_range`.
     help : str
         explanatory text for the parameter
+
+    See Also
+    --------
+    ArgmntParam
+    OptionParam
     '''
     def __init__(self, name, value=None, action=lambda i: i, help=''):
         self.name = name
@@ -264,6 +269,11 @@ class ArgmntParam(Param):
     Traceback (most recent call last):
      ...
     ValueError: Wrong input
+
+    See Also
+    --------
+    OptionParam
+
     '''
     def __str__(self):
         '''Return the string of the parameter value.'''
@@ -347,6 +357,11 @@ class OptionParam(Param):
     ...
         raise ValueError('Illegal alias name %s.' % s)
     ValueError: Illegal alias name 1.
+
+    See Also
+    --------
+    ArgmntParam
+
     '''
     def __init__(self, flag, alter=None, name=None, value=None, action=lambda i: i,
                  help='', delimiter=' '):
