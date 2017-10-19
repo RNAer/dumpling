@@ -43,7 +43,7 @@ def check_choice(it):
 
     Parameters
     ----------
-    it : collections.abc.Iterable
+    it : ~collections.abc.Iterable
         A set of all legal values.
 
     Returns
@@ -98,9 +98,9 @@ def check_range(minimum, maximum):
 
     Parameters
     ----------
-    minimum : numbers.Number
+    minimum : ~numbers.Number
         the lower bound
-    maximum : numbers.Number
+    maximum : ~numbers.Number
         the upper bound
 
     Returns
@@ -159,7 +159,7 @@ class Param(ABC):
     action : callable, optional
         The callable to operate of the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
-        anything. See `check_choice` and `check_range`.
+        anything. See :func:`.check_choice` and :func:`.check_range`.
     help : str
         explanatory text for the parameter
 
@@ -191,7 +191,7 @@ class Param(ABC):
         return self
 
     def off(self):
-        '''Turn off the parameter by setting value to `None`.'''
+        '''Turn off the parameter by setting value to None.'''
         self.value = None
         return self
 
@@ -234,7 +234,7 @@ class ArgmntParam(Param):
     value : arbitrary, optional
         The value for the parameter (default is `None`). If the value is a
         string of file or directory path, users don't need to add extra quotes
-        because it passes to :class:`subprocess.Popen`.
+        because it passes to :class:`~subprocess.Popen`.
     action : callable, optional
         The callable to operate on the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
@@ -312,7 +312,7 @@ class OptionParam(Param):
     value : arbitrary
         The value for the parameter (default is `None`). If the value is a
         string of file or directory path, users don't need to add extra quotes
-        because it passes to :class:`subprocess.Popen`.
+        because it passes to :class:`~subprocess.Popen`.
     aciton : callable
         The callable to operate of the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
@@ -425,9 +425,9 @@ class OptionParam(Param):
 
 
 class Parameters(Mapping):
-    '''Store the parameters of a command line executable as a :class:`collections.OrderedDict`.
+    '''Store the parameters of a command line executable as a :class:`~collections.OrderedDict`.
 
-    The parameters are stored as :class:`collections.OrderedDict` and
+    The parameters are stored as :class:`~collections.OrderedDict` and
     this object has the same API with `OrderedDict`. Its value is an
     object of :class:`.Param`'s child class. Its key is either the
     :attr:`.Param.name` or the :attr:`.Param.flag`, either of which
@@ -437,7 +437,7 @@ class Parameters(Mapping):
 
     Parameters
     ----------
-    params : collections.abc.Iterable
+    params : ~collections.abc.Iterable
         positional arguments of the child class of :class:`.Param`.
 
     Examples
