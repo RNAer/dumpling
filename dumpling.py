@@ -1,7 +1,28 @@
 '''
-Dumpling
-========
+.. currentmodule:: dumpling
 
+Functions
+---------
+.. autosummary::
+   :toctree: _autosummary
+
+   dumpling_factory
+   check_choice
+   check_range
+
+Classes
+-------
+.. autosummary::
+   :toctree: _autosummary
+
+   Param
+   ArgmntParam
+   OptionParam
+   Parameters
+
+Inheritance diagram
+-------------------
+.. inheritance-diagram:: Parameters Param ArgmntParam OptionParam
 
 '''
 
@@ -22,7 +43,7 @@ def check_choice(it):
 
     Parameters
     ----------
-    it : `Iterable`
+    it : collections.abc.Iterable
         A set of all legal values.
 
     Returns
@@ -44,7 +65,7 @@ def check_choice(it):
     ValueError: Illegal value: abc
 
     '''
-    # make it to set to avoid the exhaust of the iterator
+    # make it to set to avoid the exhaustion of the iterator
     it = set(it)
 
     def func(v):
@@ -77,9 +98,9 @@ def check_range(minimum, maximum):
 
     Parameters
     ----------
-    minimum : `Numeric`
+    minimum : numbers.Number
         the lower bound
-    maximum : `Numeric`
+    maximum : numbers.Number
         the upper bound
 
     Returns
@@ -106,7 +127,7 @@ def check_range(minimum, maximum):
 
         Parameters
         ----------
-        v : `Numeric`
+        v : Numeric
 
         Returns
         -------
@@ -208,11 +229,11 @@ class ArgmntParam(Param):
     value : arbitrary, optional
         The value for the parameter (default is `None`). If the value is a
         string of file or directory path, users don't need to add extra quotes
-        because it passes to `subprocess.Popen`.
+        because it passes to :class:`subprocess.Popen`.
     action : callable, optional
         The callable to operate on the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
-        anything. See `check_choice` and `check_range`.
+        anything. See :func:`.check_choice` and :func:`.check_range`.
     help : str, optional
         The help or description message for the parameter.
 
@@ -275,17 +296,17 @@ class OptionParam(Param):
         The parameter flag, i.e. the flag of the parmeter, e.g., "--force"
     alter: str
         The alternative parameter flag, e.g., "-f"
-    name : str or `None` (default)
+    name : str or None (default)
         If it is `None`, it will try to automatically infer name from the flag
         by removing the beginning "-" and replace "-" with "_".
     value : arbitrary
         The value for the parameter (default is `None`). If the value is a
         string of file or directory path, users don't need to add extra quotes
-        because it passes to `subprocess.Popen`.
+        because it passes to :class:`subprocess.Popen`.
     aciton : callable
         The callable to operate of the value to do validation, formatting,
         etc. The default callable is to return the value itself without doing
-        anything. See `check_choice` and `check_range`.
+        anything. See :func:`.check_choice` and :func:`.check_range`.
     help : str
         The help or description message for the parameter.
     delimiter : str
@@ -389,19 +410,20 @@ class OptionParam(Param):
 
 
 class Parameters(Mapping):
-    '''Store the parameters of a command line executable as a `OrderedDict`.
+    '''Store the parameters of a command line executable as a :class:`collections.OrderedDict`.
 
-    The parameters are stored as `OrderedDict` and this object has the same API
-    with `OrderedDict`. Its value is an object of `Param`'s child class. Its
-    key is either the `Param.name` or the `Param.flag`, either of which can
-    be used to retrieve its value. The order of the keys in the `OrderedDict`
-    is the parameter order given in __init__ and is used to order
-    the parameters as in command line.
+    The parameters are stored as :class:`collections.OrderedDict` and
+    this object has the same API with `OrderedDict`. Its value is an
+    object of :class:`.Param`'s child class. Its key is either the
+    :attr:`.Param.name` or the :attr:`.Param.flag`, either of which
+    can be used to retrieve its value. The order of the keys in the
+    ordered dictionary is the parameter order given in __init__ and is
+    used to order the parameters as in command line.
 
     Parameters
     ----------
-    params : `Iterable`
-        positional arguments of `Param` or its child classes.
+    params : collections.abc.Iterable
+        positional arguments of the child class of :class:`.Param`.
 
     Examples
     --------
@@ -439,14 +461,14 @@ class Parameters(Mapping):
     ...
     --force
     SAM.cm
-    '''
 
+    '''
     def __init__(self, *params):
         '''Construct an instance from a list of OptionParam or ArgmntParam.
 
         Parameters
         ----------
-        params : list of `Param`
+        params : Param list
             a list of parameters.
         '''
         # create a copy of each param
@@ -467,7 +489,7 @@ class Parameters(Mapping):
         Yields
         ------
         Param
-            Child class of `Param`
+            Child class of :class:`.Param`
         '''
         return iter(self._data)
 
@@ -486,7 +508,7 @@ class Parameters(Mapping):
         return key in self._data or key in self._name_map
 
     def __getitem__(self, key):
-        '''Return the `Param` object by key.
+        '''Return the :class:`.Param` child class object by key.
 
         Parameters
         ----------
@@ -513,7 +535,7 @@ class Parameters(Mapping):
         Raises
         ------
         ValueError
-            If the key is not in this `Parameters` object.
+            If the key is not in this :class:`.Parameters` object.
         '''
         if k in self:
             self[k].on(v)
@@ -528,7 +550,7 @@ class Parameters(Mapping):
         ----------
         kwargs : dict
             keyword arguments. The key and value to update the parameters
-            in this `Parameters` object.
+            in this :class:`.Parameters` object.
 
         Notes
         -----
@@ -560,7 +582,7 @@ class Parameters(Mapping):
             self[k].off()
 
     def __repr__(self):
-        '''String representation of the `Parameters` object.'''
+        '''String representation of the :class:`.Parameters` object.'''
         items = []
         for k in self._data:
             items.append(repr(self._data[k]))
@@ -578,7 +600,7 @@ def dumpling_factory(name, cmd, params, version='', url=''):
         The name of the class returned
     cmd : str or list of str
         The command or a list of command and its nested subcommand(s), e.g. ['git', 'clone']
-    params : `Parameters`
+    params : Parameters
         The parameters of the app
     version : str
         The version of the app.
@@ -667,7 +689,7 @@ def dumpling_factory(name, cmd, params, version='', url=''):
         ----------
         cmd : str or list of str
             The command or a list of command and its nested subcommand(s), e.g. ['git', 'clone']
-        params : `Parameters`
+        params : Parameters
             The parameters of the app
         version : str
             The version of the app.
