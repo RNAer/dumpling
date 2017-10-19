@@ -56,7 +56,7 @@
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – The parameter name.</li>
 <li><strong>value</strong> (<em>arbitrary</em><em>, </em><em>optional</em>) – The value for the parameter (default is <cite>None</cite>). If the value is a
 string of file or directory path, users don’t need to add extra quotes
-because it passes to <a class="reference external" href="https://docs.python.org/3/library/subprocess.html#subprocess.Popen" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">subprocess.Popen</span></code></a>.</li>
+because it passes to <a class="reference external" href="https://docs.python.org/3/library/subprocess.html#subprocess.Popen" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">Popen</span></code></a>.</li>
 <li><strong>action</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#callable" title="(in Python v3.6)"><em>callable</em></a><em>, </em><em>optional</em>) – The callable to operate on the value to do validation, formatting,
 etc. The default callable is to return the value itself without doing
 anything. See <a class="reference internal" href="dumpling.check_choice.html#dumpling.check_choice" title="dumpling.check_choice"><code class="xref py py-func docutils literal"><span class="pre">check_choice()</span></code></a> and <a class="reference internal" href="dumpling.check_range.html#dumpling.check_range" title="dumpling.check_range"><code class="xref py py-func docutils literal"><span class="pre">check_range()</span></code></a>.</li>
@@ -122,7 +122,7 @@ anything. See <a class="reference internal" href="dumpling.check_choice.html#dum
 <td>Return True if the parameter is on.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="dumpling.ArgmntParam.off.html#dumpling.ArgmntParam.off" title="dumpling.ArgmntParam.off"><code class="xref py py-obj docutils literal"><span class="pre">off</span></code></a>()</td>
-<td>Turn off the parameter by setting value to <cite>None</cite>.</td>
+<td>Turn off the parameter by setting value to None.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="dumpling.ArgmntParam.on.html#dumpling.ArgmntParam.on" title="dumpling.ArgmntParam.on"><code class="xref py py-obj docutils literal"><span class="pre">on</span></code></a>(value)</td>
 <td>Set the value of the parameter.</td>

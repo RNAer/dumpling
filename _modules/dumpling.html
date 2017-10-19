@@ -85,7 +85,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    it : collections.abc.Iterable</span>
+<span class="sd">    it : ~collections.abc.Iterable</span>
 <span class="sd">        A set of all legal values.</span>
 
 <span class="sd">    Returns</span>
@@ -140,9 +140,9 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    minimum : numbers.Number</span>
+<span class="sd">    minimum : ~numbers.Number</span>
 <span class="sd">        the lower bound</span>
-<span class="sd">    maximum : numbers.Number</span>
+<span class="sd">    maximum : ~numbers.Number</span>
 <span class="sd">        the upper bound</span>
 
 <span class="sd">    Returns</span>
@@ -201,7 +201,7 @@
 <span class="sd">    action : callable, optional</span>
 <span class="sd">        The callable to operate of the value to do validation, formatting,</span>
 <span class="sd">        etc. The default callable is to return the value itself without doing</span>
-<span class="sd">        anything. See `check_choice` and `check_range`.</span>
+<span class="sd">        anything. See :func:`.check_choice` and :func:`.check_range`.</span>
 <span class="sd">    help : str</span>
 <span class="sd">        explanatory text for the parameter</span>
 
@@ -233,7 +233,7 @@
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Param.off"><a class="viewcode-back" href="../_autosummary/dumpling.Param.off.html#dumpling.Param.off">[docs]</a>    <span class="k">def</span> <span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Turn off the parameter by setting value to `None`.&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Turn off the parameter by setting value to None.&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -276,7 +276,7 @@
 <span class="sd">    value : arbitrary, optional</span>
 <span class="sd">        The value for the parameter (default is `None`). If the value is a</span>
 <span class="sd">        string of file or directory path, users don&#39;t need to add extra quotes</span>
-<span class="sd">        because it passes to :class:`subprocess.Popen`.</span>
+<span class="sd">        because it passes to :class:`~subprocess.Popen`.</span>
 <span class="sd">    action : callable, optional</span>
 <span class="sd">        The callable to operate on the value to do validation, formatting,</span>
 <span class="sd">        etc. The default callable is to return the value itself without doing</span>
@@ -354,7 +354,7 @@
 <span class="sd">    value : arbitrary</span>
 <span class="sd">        The value for the parameter (default is `None`). If the value is a</span>
 <span class="sd">        string of file or directory path, users don&#39;t need to add extra quotes</span>
-<span class="sd">        because it passes to :class:`subprocess.Popen`.</span>
+<span class="sd">        because it passes to :class:`~subprocess.Popen`.</span>
 <span class="sd">    aciton : callable</span>
 <span class="sd">        The callable to operate of the value to do validation, formatting,</span>
 <span class="sd">        etc. The default callable is to return the value itself without doing</span>
@@ -467,9 +467,9 @@
 
 
 <div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.html#dumpling.Parameters">[docs]</a><span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Store the parameters of a command line executable as a :class:`collections.OrderedDict`.</span>
+    <span class="sd">&#39;&#39;&#39;Store the parameters of a command line executable as a :class:`~collections.OrderedDict`.</span>
 
-<span class="sd">    The parameters are stored as :class:`collections.OrderedDict` and</span>
+<span class="sd">    The parameters are stored as :class:`~collections.OrderedDict` and</span>
 <span class="sd">    this object has the same API with `OrderedDict`. Its value is an</span>
 <span class="sd">    object of :class:`.Param`&#39;s child class. Its key is either the</span>
 <span class="sd">    :attr:`.Param.name` or the :attr:`.Param.flag`, either of which</span>
@@ -479,7 +479,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    params : collections.abc.Iterable</span>
+<span class="sd">    params : ~collections.abc.Iterable</span>
 <span class="sd">        positional arguments of the child class of :class:`.Param`.</span>
 
 <span class="sd">    Examples</span>
