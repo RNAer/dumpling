@@ -18,7 +18,6 @@ dumpling.Parameters
          
             ~Parameters.__eq__
          
-            ~Parameters.__format__
          
             ~Parameters.__getitem__
          

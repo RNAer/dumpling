@@ -16,7 +16,6 @@ dumpling.OptionParam
          
             ~OptionParam.__eq__
          
-            ~OptionParam.__format__
          
          
          

@@ -16,7 +16,6 @@ dumpling.Param
          
             ~Param.__eq__
          
-            ~Param.__format__
          
          
          
