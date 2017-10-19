@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.OptionParam.__format__
+===============================
+
+.. currentmodule:: dumpling
+
+.. automethod:: OptionParam.__format__

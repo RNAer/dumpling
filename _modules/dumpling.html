@@ -1,20 +1,17 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>dumpling &#8212; dumpling 0.1.2 documentation</title>
-    
+    <title>dumpling &#8212; dumpling 0.1.3 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -24,7 +21,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
@@ -34,7 +31,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -44,9 +41,30 @@
             
   <h1>Source code for dumpling</h1><div class="highlight"><pre>
 <span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">Dumpling</span>
-<span class="sd">========</span>
+<span class="sd">.. currentmodule:: dumpling</span>
 
+<span class="sd">Functions</span>
+<span class="sd">---------</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :toctree: _autosummary</span>
+
+<span class="sd">   dumpling_factory</span>
+<span class="sd">   check_choice</span>
+<span class="sd">   check_range</span>
+
+<span class="sd">Classes</span>
+<span class="sd">-------</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">   :toctree: _autosummary</span>
+
+<span class="sd">   Param</span>
+<span class="sd">   ArgmntParam</span>
+<span class="sd">   OptionParam</span>
+<span class="sd">   Parameters</span>
+
+<span class="sd">Inheritance diagram</span>
+<span class="sd">-------------------</span>
+<span class="sd">.. inheritance-diagram:: Parameters Param ArgmntParam OptionParam</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
 
@@ -62,12 +80,12 @@
 <span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;0.1.3&#39;</span>
 
 
-<div class="viewcode-block" id="check_choice"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.check_choice">[docs]</a><span class="k">def</span> <span class="nf">check_choice</span><span class="p">(</span><span class="n">it</span><span class="p">):</span>
+<div class="viewcode-block" id="check_choice"><a class="viewcode-back" href="../_autosummary/dumpling.check_choice.html#dumpling.check_choice">[docs]</a><span class="k">def</span> <span class="nf">check_choice</span><span class="p">(</span><span class="n">it</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;return a function to check the value is among a list of legal values.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    it : `Iterable`</span>
+<span class="sd">    it : collections.abc.Iterable</span>
 <span class="sd">        A set of all legal values.</span>
 
 <span class="sd">    Returns</span>
@@ -89,7 +107,7 @@
 <span class="sd">    ValueError: Illegal value: abc</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c1"># make it to set to avoid the exhaust of the iterator</span>
+    <span class="c1"># make it to set to avoid the exhaustion of the iterator</span>
     <span class="n">it</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
@@ -117,14 +135,14 @@
     <span class="k">return</span> <span class="n">func</span></div>
 
 
-<div class="viewcode-block" id="check_range"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.check_range">[docs]</a><span class="k">def</span> <span class="nf">check_range</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">):</span>
+<div class="viewcode-block" id="check_range"><a class="viewcode-back" href="../_autosummary/dumpling.check_range.html#dumpling.check_range">[docs]</a><span class="k">def</span> <span class="nf">check_range</span><span class="p">(</span><span class="n">minimum</span><span class="p">,</span> <span class="n">maximum</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;return a function to check the value is in the legal range.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    minimum : `Numeric`</span>
+<span class="sd">    minimum : numbers.Number</span>
 <span class="sd">        the lower bound</span>
-<span class="sd">    maximum : `Numeric`</span>
+<span class="sd">    maximum : numbers.Number</span>
 <span class="sd">        the upper bound</span>
 
 <span class="sd">    Returns</span>
@@ -151,7 +169,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        v : `Numeric`</span>
+<span class="sd">        v : Numeric</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -171,7 +189,7 @@
     <span class="k">return</span> <span class="n">func</span></div>
 
 
-<div class="viewcode-block" id="Param"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param">[docs]</a><span class="k">class</span> <span class="nc">Param</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="Param"><a class="viewcode-back" href="../_autosummary/dumpling.Param.html#dumpling.Param">[docs]</a><span class="k">class</span> <span class="nc">Param</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Abstract base class for command line parameters.</span>
 
 <span class="sd">    Parameters</span>
@@ -204,46 +222,46 @@
             <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">v</span>
 
-<div class="viewcode-block" id="Param.on"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.on">[docs]</a>    <span class="k">def</span> <span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.on"><a class="viewcode-back" href="../_autosummary/dumpling.Param.on.html#dumpling.Param.on">[docs]</a>    <span class="k">def</span> <span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Set the value of the parameter.&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Param.off"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.off">[docs]</a>    <span class="k">def</span> <span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.off"><a class="viewcode-back" href="../_autosummary/dumpling.Param.off.html#dumpling.Param.off">[docs]</a>    <span class="k">def</span> <span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Turn off the parameter by setting value to `None`.&#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="Param.is_on"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.is_on">[docs]</a>    <span class="k">def</span> <span class="nf">is_on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.is_on"><a class="viewcode-back" href="../_autosummary/dumpling.Param.is_on.html#dumpling.Param.is_on">[docs]</a>    <span class="k">def</span> <span class="nf">is_on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return True if the parameter is on.</span>
 
 <span class="sd">        Otherwise, return False.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_off</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Param.is_off"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.is_off">[docs]</a>    <span class="k">def</span> <span class="nf">is_off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.is_off"><a class="viewcode-back" href="../_autosummary/dumpling.Param.is_off.html#dumpling.Param.is_off">[docs]</a>    <span class="k">def</span> <span class="nf">is_off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return True if the parameter is off.</span>
 
 <span class="sd">        Otherwise, return False.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Param.__str__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.__str__"><a class="viewcode-back" href="../_autosummary/dumpling.Param.__str__.html#dumpling.Param.__str__">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;str() method.&#39;&#39;&#39;</span></div>
 
-    <span class="nd">@abstractmethod</span>
-<div class="viewcode-block" id="Param.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.Param.__repr__.html#dumpling.Param.__repr__">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;repr() method.&#39;&#39;&#39;</span></div>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_get_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the parameter as list.&#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="Param.__eq__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Param.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<div class="viewcode-block" id="Param.__eq__"><a class="viewcode-back" href="../_autosummary/dumpling.Param.__eq__.html#dumpling.Param.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Compare two parameters.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span></div></div>
 
 
-<div class="viewcode-block" id="ArgmntParam"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.ArgmntParam">[docs]</a><span class="k">class</span> <span class="nc">ArgmntParam</span><span class="p">(</span><span class="n">Param</span><span class="p">):</span>
+<div class="viewcode-block" id="ArgmntParam"><a class="viewcode-back" href="../_autosummary/dumpling.ArgmntParam.html#dumpling.ArgmntParam">[docs]</a><span class="k">class</span> <span class="nc">ArgmntParam</span><span class="p">(</span><span class="n">Param</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Class of command line argument parameter.</span>
 
 <span class="sd">    Parameters</span>
@@ -253,11 +271,11 @@
 <span class="sd">    value : arbitrary, optional</span>
 <span class="sd">        The value for the parameter (default is `None`). If the value is a</span>
 <span class="sd">        string of file or directory path, users don&#39;t need to add extra quotes</span>
-<span class="sd">        because it passes to `subprocess.Popen`.</span>
+<span class="sd">        because it passes to :class:`subprocess.Popen`.</span>
 <span class="sd">    action : callable, optional</span>
 <span class="sd">        The callable to operate on the value to do validation, formatting,</span>
 <span class="sd">        etc. The default callable is to return the value itself without doing</span>
-<span class="sd">        anything. See `check_choice` and `check_range`.</span>
+<span class="sd">        anything. See :func:`.check_choice` and :func:`.check_range`.</span>
 <span class="sd">    help : str, optional</span>
 <span class="sd">        The help or description message for the parameter.</span>
 
@@ -289,19 +307,19 @@
 <span class="sd">     ...</span>
 <span class="sd">    ValueError: Wrong input</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="ArgmntParam.__str__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.ArgmntParam.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ArgmntParam.__str__"><a class="viewcode-back" href="../_autosummary/dumpling.ArgmntParam.__str__.html#dumpling.ArgmntParam.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the string of the parameter value.&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_off</span><span class="p">():</span>
             <span class="k">return</span> <span class="s1">&#39;&#39;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ArgmntParam.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.ArgmntParam.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ArgmntParam.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.ArgmntParam.__repr__.html#dumpling.ArgmntParam.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the string representation of the argument parameter.&#39;&#39;&#39;</span>
         <span class="c1"># if isinstance(self.value, bool):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(name=</span><span class="si">{!r}</span><span class="s1">, value=</span><span class="si">{!r}</span><span class="s1">, action=</span><span class="si">{}</span><span class="s1">, help=</span><span class="si">{!r}</span><span class="s1">)&#39;</span>
-        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the parameter as list.&#39;&#39;&#39;</span>
@@ -311,7 +329,7 @@
             <span class="k">return</span> <span class="p">[]</span></div>
 
 
-<div class="viewcode-block" id="OptionParam"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.OptionParam">[docs]</a><span class="k">class</span> <span class="nc">OptionParam</span><span class="p">(</span><span class="n">Param</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionParam"><a class="viewcode-back" href="../_autosummary/dumpling.OptionParam.html#dumpling.OptionParam">[docs]</a><span class="k">class</span> <span class="nc">OptionParam</span><span class="p">(</span><span class="n">Param</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Class of option parameter.</span>
 
 <span class="sd">    Parameters</span>
@@ -320,17 +338,17 @@
 <span class="sd">        The parameter flag, i.e. the flag of the parmeter, e.g., &quot;--force&quot;</span>
 <span class="sd">    alter: str</span>
 <span class="sd">        The alternative parameter flag, e.g., &quot;-f&quot;</span>
-<span class="sd">    name : str or `None` (default)</span>
+<span class="sd">    name : str or None (default)</span>
 <span class="sd">        If it is `None`, it will try to automatically infer name from the flag</span>
 <span class="sd">        by removing the beginning &quot;-&quot; and replace &quot;-&quot; with &quot;_&quot;.</span>
 <span class="sd">    value : arbitrary</span>
 <span class="sd">        The value for the parameter (default is `None`). If the value is a</span>
 <span class="sd">        string of file or directory path, users don&#39;t need to add extra quotes</span>
-<span class="sd">        because it passes to `subprocess.Popen`.</span>
+<span class="sd">        because it passes to :class:`subprocess.Popen`.</span>
 <span class="sd">    aciton : callable</span>
 <span class="sd">        The callable to operate of the value to do validation, formatting,</span>
 <span class="sd">        etc. The default callable is to return the value itself without doing</span>
-<span class="sd">        anything. See `check_choice` and `check_range`.</span>
+<span class="sd">        anything. See :func:`.check_choice` and :func:`.check_range`.</span>
 <span class="sd">    help : str</span>
 <span class="sd">        The help or description message for the parameter.</span>
 <span class="sd">    delimiter : str</span>
@@ -396,29 +414,29 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Illegal alias name </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="OptionParam.convert_flag_to_name"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.OptionParam.convert_flag_to_name">[docs]</a>    <span class="k">def</span> <span class="nf">convert_flag_to_name</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionParam.convert_flag_to_name"><a class="viewcode-back" href="../_autosummary/dumpling.OptionParam.convert_flag_to_name.html#dumpling.OptionParam.convert_flag_to_name">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">convert_flag_to_name</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Try to convert str to legal Python identifier.&#39;&#39;&#39;</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span></div>
 
-<div class="viewcode-block" id="OptionParam.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.OptionParam.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionParam.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.OptionParam.__repr__.html#dumpling.OptionParam.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the string representation of the option parameter.&#39;&#39;&#39;</span>
         <span class="c1"># if isinstance(self.value, bool):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(flag=</span><span class="si">{!r}</span><span class="s1">, alter=</span><span class="si">{!r}</span><span class="s1">, name=</span><span class="si">{!r}</span><span class="s1">, value=</span><span class="si">{!r}</span><span class="s1">, action=</span><span class="si">{}</span><span class="s1">, help=</span><span class="si">{!r}</span><span class="s1">, delimiter=</span><span class="si">{!r}</span><span class="s1">)&#39;</span>
-        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delimiter</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">help</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delimiter</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OptionParam.__str__"><a class="viewcode-back" href="../_autosummary/dumpling.OptionParam.__str__.html#dumpling.OptionParam.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_off</span><span class="p">():</span>
             <span class="k">return</span> <span class="s1">&#39;&#39;</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delimiter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}{}{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">delimiter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">flag</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span>
+<div class="viewcode-block" id="OptionParam.__eq__"><a class="viewcode-back" href="../_autosummary/dumpling.OptionParam.__eq__.html#dumpling.OptionParam.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">flag</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span></div>
 
     <span class="k">def</span> <span class="nf">_get_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the parameter as list.&#39;&#39;&#39;</span>
@@ -433,20 +451,21 @@
             <span class="k">return</span> <span class="p">[]</span></div>
 
 
-<div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters">[docs]</a><span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Store the parameters of a command line executable as a `OrderedDict`.</span>
+<div class="viewcode-block" id="Parameters"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.html#dumpling.Parameters">[docs]</a><span class="k">class</span> <span class="nc">Parameters</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Store the parameters of a command line executable as a :class:`collections.OrderedDict`.</span>
 
-<span class="sd">    The parameters are stored as `OrderedDict` and this object has the same API</span>
-<span class="sd">    with `OrderedDict`. Its value is an object of `Param`&#39;s child class. Its</span>
-<span class="sd">    key is either the `Param.name` or the `Param.flag`, either of which can</span>
-<span class="sd">    be used to retrieve its value. The order of the keys in the `OrderedDict`</span>
-<span class="sd">    is the parameter order given in __init__ and is used to order</span>
-<span class="sd">    the parameters as in command line.</span>
+<span class="sd">    The parameters are stored as :class:`collections.OrderedDict` and</span>
+<span class="sd">    this object has the same API with `OrderedDict`. Its value is an</span>
+<span class="sd">    object of :class:`.Param`&#39;s child class. Its key is either the</span>
+<span class="sd">    :attr:`.Param.name` or the :attr:`.Param.flag`, either of which</span>
+<span class="sd">    can be used to retrieve its value. The order of the keys in the</span>
+<span class="sd">    ordered dictionary is the parameter order given in __init__ and is</span>
+<span class="sd">    used to order the parameters as in command line.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    params : `Iterable`</span>
-<span class="sd">        positional arguments of `Param` or its child classes.</span>
+<span class="sd">    params : collections.abc.Iterable</span>
+<span class="sd">        positional arguments of the child class of :class:`.Param`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -484,14 +503,14 @@
 <span class="sd">    ...</span>
 <span class="sd">    --force</span>
 <span class="sd">    SAM.cm</span>
-<span class="sd">    &#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="Parameters.__init__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Construct an instance from a list of OptionParam or ArgmntParam.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        params : list of `Param`</span>
+<span class="sd">        params : Param list</span>
 <span class="sd">            a list of parameters.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="c1"># create a copy of each param</span>
@@ -504,23 +523,23 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">_name_map</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_name_map</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">alter</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">Param</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not an instance of `Param`.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">))</span></div>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> is not an instance of `Param`.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Parameters.__iter__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.__iter__"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.__iter__.html#dumpling.Parameters.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Iterate over parameter in this object.</span>
 
 <span class="sd">        Yields</span>
 <span class="sd">        ------</span>
 <span class="sd">        Param</span>
-<span class="sd">            Child class of `Param`</span>
+<span class="sd">            Child class of :class:`.Param`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Parameters.__len__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.__len__"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.__len__.html#dumpling.Parameters.__len__">[docs]</a>    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Return the number of parameters.&#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Parameters.__contains__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__contains__">[docs]</a>    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.__contains__"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.__contains__.html#dumpling.Parameters.__contains__">[docs]</a>    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Determine if a parameter exists.</span>
 
 <span class="sd">        Parameters</span>
@@ -530,8 +549,8 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_map</span></div>
 
-<div class="viewcode-block" id="Parameters.__getitem__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__getitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Return the `Param` object by key.</span>
+<div class="viewcode-block" id="Parameters.__getitem__"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.__getitem__.html#dumpling.Parameters.__getitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Return the :class:`.Param` child class object by key.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -545,7 +564,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Parameters.__setitem__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__setitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.__setitem__"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.__setitem__.html#dumpling.Parameters.__setitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Set the value of specified paramter.</span>
 
 <span class="sd">        Parameters</span>
@@ -558,7 +577,7 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
-<span class="sd">            If the key is not in this `Parameters` object.</span>
+<span class="sd">            If the key is not in this :class:`.Parameters` object.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -566,14 +585,14 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;You cannot set value </span><span class="si">{!r}</span><span class="s1"> on unknown key </span><span class="si">{!r}</span><span class="s1">&#39;</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Parameters.update"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.update"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.update.html#dumpling.Parameters.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Update the parameter values.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        kwargs : dict</span>
 <span class="sd">            keyword arguments. The key and value to update the parameters</span>
-<span class="sd">            in this `Parameters` object.</span>
+<span class="sd">            in this :class:`.Parameters` object.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -599,20 +618,20 @@
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Parameters.off"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.off">[docs]</a>    <span class="k">def</span> <span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Parameters.off"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.off.html#dumpling.Parameters.off">[docs]</a>    <span class="k">def</span> <span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Turn off all the parameters.&#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
             <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">off</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Parameters.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.Parameters.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;String representation of the `Parameters` object.&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="Parameters.__repr__"><a class="viewcode-back" href="../_autosummary/dumpling.Parameters.__repr__.html#dumpling.Parameters.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;String representation of the :class:`.Parameters` object.&#39;&#39;&#39;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">:</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">items</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="dumpling_factory"><a class="viewcode-back" href="../_autosummary/dumpling.html#dumpling.dumpling_factory">[docs]</a><span class="k">def</span> <span class="nf">dumpling_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="dumpling_factory"><a class="viewcode-back" href="../_autosummary/dumpling.dumpling_factory.html#dumpling.dumpling_factory">[docs]</a><span class="k">def</span> <span class="nf">dumpling_factory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;dumpling factory.</span>
 
 <span class="sd">    It creates a Python class for wrapping a command line tool.</span>
@@ -623,7 +642,7 @@
 <span class="sd">        The name of the class returned</span>
 <span class="sd">    cmd : str or list of str</span>
 <span class="sd">        The command or a list of command and its nested subcommand(s), e.g. [&#39;git&#39;, &#39;clone&#39;]</span>
-<span class="sd">    params : `Parameters`</span>
+<span class="sd">    params : Parameters</span>
 <span class="sd">        The parameters of the app</span>
 <span class="sd">    version : str</span>
 <span class="sd">        The version of the app.</span>
@@ -712,7 +731,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        cmd : str or list of str</span>
 <span class="sd">            The command or a list of command and its nested subcommand(s), e.g. [&#39;git&#39;, &#39;clone&#39;]</span>
-<span class="sd">        params : `Parameters`</span>
+<span class="sd">        params : Parameters</span>
 <span class="sd">            The parameters of the app</span>
 <span class="sd">        version : str</span>
 <span class="sd">            The version of the app.</span>
@@ -750,7 +769,7 @@
         <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="sd">&#39;&#39;&#39;Return string representation of this object.&#39;&#39;&#39;</span>
             <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;CMD: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">)))</span>
@@ -819,7 +838,7 @@
                         <span class="k">pass</span>
             <span class="k">return</span> <span class="n">proc</span>
 
-    <span class="n">Dumpling</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">Dumpling</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">name</span>
     <span class="k">return</span> <span class="n">Dumpling</span></div>
 </pre></div>
 
@@ -854,8 +873,8 @@
       &copy;Modified MIT.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.5</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

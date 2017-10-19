@@ -1,0 +1,46 @@
+dumpling.OptionParam
+====================
+.. currentmodule:: dumpling
+.. autoclass:: OptionParam
+   :show-inheritance:
+
+
+
+
+
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+      
+         
+         
+            ~OptionParam.__eq__
+         
+            ~OptionParam.__format__
+         
+         
+         
+         
+         
+            ~OptionParam.__repr__
+         
+         
+            ~OptionParam.__str__
+         
+         
+         
+            ~OptionParam.convert_flag_to_name
+         
+            ~OptionParam.is_off
+         
+            ~OptionParam.is_on
+         
+            ~OptionParam.off
+         
+            ~OptionParam.on
+
+
+
+
+
+

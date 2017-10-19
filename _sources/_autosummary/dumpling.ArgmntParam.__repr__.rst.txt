@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.ArgmntParam.__repr__
+=============================
+
+.. currentmodule:: dumpling
+
+.. automethod:: ArgmntParam.__repr__

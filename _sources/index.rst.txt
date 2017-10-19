@@ -6,10 +6,8 @@
 Welcome to dumpling's documentation!
 ====================================
 
-.. autosummary::
-   :toctree: _autosummary
+.. automodule:: dumpling
 
-   dumpling
 
 Indices and tables
 ==================

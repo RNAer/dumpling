@@ -1,0 +1,6 @@
+dumpling\.check\_range
+======================
+
+.. currentmodule:: dumpling
+
+.. autofunction:: check_range

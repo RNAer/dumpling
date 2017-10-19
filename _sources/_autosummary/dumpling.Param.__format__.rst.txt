@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Param.__format__
+=========================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Param.__format__

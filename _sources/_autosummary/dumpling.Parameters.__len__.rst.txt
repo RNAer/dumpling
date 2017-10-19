@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Parameters.__len__
+===========================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Parameters.__len__

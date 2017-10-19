@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Param.__str__
+======================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Param.__str__

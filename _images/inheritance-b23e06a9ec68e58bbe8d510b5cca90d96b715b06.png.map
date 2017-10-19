@@ -1,0 +1,7 @@
+<map id="inheritance34512c0ea4" name="inheritance34512c0ea4">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="54,149,127,173"/>
+<area shape="rect" id="node7" href="_autosummary/dumpling.Param.html#dumpling.Param" target="_top" title="Abstract base class for command line parameters." alt="" coords="246,149,365,173"/>
+<area shape="rect" id="node9" href="_autosummary/dumpling.Parameters.html#dumpling.Parameters" target="_top" title="Store the parameters of a command line executable as a :class:`collections.OrderedDict`." alt="" coords="442,53,590,77"/>
+<area shape="rect" id="node6" href="_autosummary/dumpling.ArgmntParam.html#dumpling.ArgmntParam" target="_top" title="Class of command line argument parameter." alt="" coords="435,125,597,149"/>
+<area shape="rect" id="node8" href="_autosummary/dumpling.OptionParam.html#dumpling.OptionParam" target="_top" title="Class of option parameter." alt="" coords="437,173,595,197"/>
+</map>

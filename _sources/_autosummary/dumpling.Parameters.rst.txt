@@ -1,0 +1,55 @@
+dumpling.Parameters
+===================
+.. currentmodule:: dumpling
+.. autoclass:: Parameters
+   :show-inheritance:
+
+
+
+
+
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+      
+         
+            ~Parameters.__contains__
+         
+         
+            ~Parameters.__eq__
+         
+            ~Parameters.__format__
+         
+            ~Parameters.__getitem__
+         
+         
+            ~Parameters.__iter__
+         
+            ~Parameters.__len__
+         
+         
+         
+         
+            ~Parameters.__repr__
+         
+            ~Parameters.__setitem__
+         
+         
+         
+            ~Parameters.get
+         
+            ~Parameters.items
+         
+            ~Parameters.keys
+         
+            ~Parameters.off
+         
+            ~Parameters.update
+         
+            ~Parameters.values
+
+
+
+
+
+

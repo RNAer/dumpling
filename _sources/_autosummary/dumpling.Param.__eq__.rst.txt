@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Param.__eq__
+=====================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Param.__eq__

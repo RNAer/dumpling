@@ -1,0 +1,6 @@
+dumpling\.dumpling\_factory
+===========================
+
+.. currentmodule:: dumpling
+
+.. autofunction:: dumpling_factory

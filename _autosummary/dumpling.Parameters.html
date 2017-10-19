@@ -1,0 +1,209 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dumpling.Parameters &#8212; dumpling 0.1.3 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="dumpling.Parameters.__contains__" href="dumpling.Parameters.__contains__.html" />
+    <link rel="prev" title="dumpling.OptionParam.on" href="dumpling.OptionParam.on.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dumpling-parameters">
+<h1>dumpling.Parameters<a class="headerlink" href="#dumpling-parameters" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="dumpling.Parameters">
+<em class="property">class </em><code class="descclassname">dumpling.</code><code class="descname">Parameters</code><span class="sig-paren">(</span><em>*params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dumpling.html#Parameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dumpling.Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">collections.abc.Mapping</span></code></a></p>
+<p>Store the parameters of a command line executable as a <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">collections.OrderedDict</span></code></a>.</p>
+<p>The parameters are stored as <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">collections.OrderedDict</span></code></a> and
+this object has the same API with <cite>OrderedDict</cite>. Its value is an
+object of <a class="reference internal" href="dumpling.Param.html#dumpling.Param" title="dumpling.Param"><code class="xref py py-class docutils literal"><span class="pre">Param</span></code></a>’s child class. Its key is either the
+<code class="xref py py-attr docutils literal"><span class="pre">Param.name</span></code> or the <code class="xref py py-attr docutils literal"><span class="pre">Param.flag</span></code>, either of which
+can be used to retrieve its value. The order of the keys in the
+ordered dictionary is the parameter order given in __init__ and is
+used to order the parameters as in command line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.6)"><em>collections.abc.Iterable</em></a>) – positional arguments of the child class of <a class="reference internal" href="dumpling.Param.html#dumpling.Param" title="dumpling.Param"><code class="xref py py-class docutils literal"><span class="pre">Param</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dumpling</span> <span class="k">import</span> <span class="n">ArgmntParam</span><span class="p">,</span> <span class="n">OptionParam</span><span class="p">,</span> <span class="n">Parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">OptionParam</span><span class="p">(</span><span class="s1">&#39;--force&#39;</span><span class="p">,</span> <span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;force overwriting&#39;</span><span class="p">),</span>
+<span class="gp">... </span>          <span class="n">ArgmntParam</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;input cm file&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">Parameters</span><span class="p">(</span><span class="o">*</span><span class="n">params</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
+<span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
+<span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="go">[&#39;force&#39;, &#39;input&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;--force&#39;</span> <span class="ow">in</span> <span class="n">p</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;--force&#39;</span><span class="p">]</span>
+<span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;--force&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;-f&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span>
+<span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;riboswitch.cm&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
+<span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
+<span class="go">ArgmntParam(name=&#39;input&#39;, value=&#39;riboswitch.cm&#39;, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">off</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
+<span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=None, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
+<span class="go">ArgmntParam(name=&#39;input&#39;, value=None, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">input</span><span class="o">=</span><span class="s1">&#39;SAM.cm&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span>
+<span class="go">OptionParam(flag=&#39;--force&#39;, alter=&#39;-f&#39;, name=&#39;force&#39;, value=True, action=&lt;lambda&gt;, help=&#39;force overwriting&#39;, delimiter=&#39; &#39;)</span>
+<span class="go">ArgmntParam(name=&#39;input&#39;, value=&#39;SAM.cm&#39;, action=&lt;lambda&gt;, help=&#39;input cm file&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="go">--force</span>
+<span class="go">SAM.cm</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.__contains__.html#dumpling.Parameters.__contains__" title="dumpling.Parameters.__contains__"><code class="xref py py-obj docutils literal"><span class="pre">k</span> <span class="pre">in</span> <span class="pre">parameters</span></code></a></td>
+<td>Determine if a parameter exists.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.__eq__.html#dumpling.Parameters.__eq__" title="dumpling.Parameters.__eq__"><code class="xref py py-obj docutils literal"><span class="pre">parameters1</span> <span class="pre">==</span> <span class="pre">parameters2</span></code></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.__format__.html#dumpling.Parameters.__format__" title="dumpling.Parameters.__format__"><code class="xref py py-obj docutils literal"><span class="pre">__format__</span></code></a></td>
+<td>default object formatter</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.__getitem__.html#dumpling.Parameters.__getitem__" title="dumpling.Parameters.__getitem__"><code class="xref py py-obj docutils literal"><span class="pre">parameters[k]</span></code></a></td>
+<td>Return the <a class="reference internal" href="dumpling.Param.html#dumpling.Param" title="dumpling.Param"><code class="xref py py-class docutils literal"><span class="pre">Param</span></code></a> child class object by key.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.__iter__.html#dumpling.Parameters.__iter__" title="dumpling.Parameters.__iter__"><code class="xref py py-obj docutils literal"><span class="pre">iter(parameters)</span></code></a></td>
+<td>Iterate over parameter in this object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.__len__.html#dumpling.Parameters.__len__" title="dumpling.Parameters.__len__"><code class="xref py py-obj docutils literal"><span class="pre">len(parameters)</span></code></a></td>
+<td>Return the number of parameters.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.__repr__.html#dumpling.Parameters.__repr__" title="dumpling.Parameters.__repr__"><code class="xref py py-obj docutils literal"><span class="pre">repr(parameters)</span></code></a></td>
+<td>String representation of the <a class="reference internal" href="#dumpling.Parameters" title="dumpling.Parameters"><code class="xref py py-class docutils literal"><span class="pre">Parameters</span></code></a> object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.__setitem__.html#dumpling.Parameters.__setitem__" title="dumpling.Parameters.__setitem__"><code class="xref py py-obj docutils literal"><span class="pre">parameters[k]</span> <span class="pre">=</span> <span class="pre">v</span></code></a></td>
+<td>Set the value of specified paramter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.get.html#dumpling.Parameters.get" title="dumpling.Parameters.get"><code class="xref py py-obj docutils literal"><span class="pre">get</span></code></a>((k[,d])&nbsp;-&gt;&nbsp;D[k]&nbsp;if&nbsp;k&nbsp;in&nbsp;D,&nbsp;…)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.items.html#dumpling.Parameters.items" title="dumpling.Parameters.items"><code class="xref py py-obj docutils literal"><span class="pre">items</span></code></a>(…)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.keys.html#dumpling.Parameters.keys" title="dumpling.Parameters.keys"><code class="xref py py-obj docutils literal"><span class="pre">keys</span></code></a>(…)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.off.html#dumpling.Parameters.off" title="dumpling.Parameters.off"><code class="xref py py-obj docutils literal"><span class="pre">off</span></code></a>()</td>
+<td>Turn off all the parameters.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="dumpling.Parameters.update.html#dumpling.Parameters.update" title="dumpling.Parameters.update"><code class="xref py py-obj docutils literal"><span class="pre">update</span></code></a>(**kwargs)</td>
+<td>Update the parameter values.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="dumpling.Parameters.values.html#dumpling.Parameters.values" title="dumpling.Parameters.values"><code class="xref py py-obj docutils literal"><span class="pre">values</span></code></a>(…)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="dumpling.OptionParam.on.html" title="previous chapter">dumpling.OptionParam.on</a></li>
+      <li>Next: <a href="dumpling.Parameters.__contains__.html" title="next chapter">dumpling.Parameters.__contains__</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/_autosummary/dumpling.Parameters.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;Modified MIT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/_autosummary/dumpling.Parameters.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

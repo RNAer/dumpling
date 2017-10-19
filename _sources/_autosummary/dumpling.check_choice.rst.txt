@@ -1,0 +1,6 @@
+dumpling\.check\_choice
+=======================
+
+.. currentmodule:: dumpling
+
+.. autofunction:: check_choice

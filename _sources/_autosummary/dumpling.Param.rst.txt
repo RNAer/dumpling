@@ -1,0 +1,44 @@
+dumpling.Param
+==============
+.. currentmodule:: dumpling
+.. autoclass:: Param
+   :show-inheritance:
+
+
+
+
+
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+      
+         
+         
+            ~Param.__eq__
+         
+            ~Param.__format__
+         
+         
+         
+         
+         
+            ~Param.__repr__
+         
+         
+            ~Param.__str__
+         
+         
+         
+            ~Param.is_off
+         
+            ~Param.is_on
+         
+            ~Param.off
+         
+            ~Param.on
+
+
+
+
+
+

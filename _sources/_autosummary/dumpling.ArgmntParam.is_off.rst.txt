@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.ArgmntParam.is_off
+===========================
+
+.. currentmodule:: dumpling
+
+.. automethod:: ArgmntParam.is_off

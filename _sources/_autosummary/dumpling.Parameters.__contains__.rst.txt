@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Parameters.__contains__
+================================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Parameters.__contains__

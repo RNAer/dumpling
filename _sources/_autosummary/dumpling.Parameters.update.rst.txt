@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Parameters.update
+==========================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Parameters.update

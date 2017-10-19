@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.OptionParam.__repr__
+=============================
+
+.. currentmodule:: dumpling
+
+.. automethod:: OptionParam.__repr__

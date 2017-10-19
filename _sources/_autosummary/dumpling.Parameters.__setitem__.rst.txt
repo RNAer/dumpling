@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Parameters.__setitem__
+===============================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Parameters.__setitem__

@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Param.on
+=================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Param.on

@@ -1,0 +1,8 @@
+:orphan:
+
+dumpling.Parameters.__iter__
+============================
+
+.. currentmodule:: dumpling
+
+.. automethod:: Parameters.__iter__

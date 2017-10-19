@@ -1,0 +1,44 @@
+dumpling.ArgmntParam
+====================
+.. currentmodule:: dumpling
+.. autoclass:: ArgmntParam
+   :show-inheritance:
+
+
+
+
+
+   .. rubric:: Methods
+   .. autosummary::
+      :toctree:
+      
+         
+         
+            ~ArgmntParam.__eq__
+         
+            ~ArgmntParam.__format__
+         
+         
+         
+         
+         
+            ~ArgmntParam.__repr__
+         
+         
+            ~ArgmntParam.__str__
+         
+         
+         
+            ~ArgmntParam.is_off
+         
+            ~ArgmntParam.is_on
+         
+            ~ArgmntParam.off
+         
+            ~ArgmntParam.on
+
+
+
+
+
+
